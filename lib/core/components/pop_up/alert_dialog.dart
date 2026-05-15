@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:twafok/core/core.dart';
+import 'package:twafok_shared/core/core.dart';
 
 Future<dynamic> showAlertDialog(
     {required BuildContext context, required Widget content}) {
@@ -26,11 +25,18 @@ Future<void> showSuccessDialog(
     content: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Image.asset(
-          icon ?? Assets.done,
-          width: widthRation(context, 40),
-          height: heightRation(context, 40),
-        ),
+        if (icon != null)
+          Image.asset(
+            icon,
+            width: widthRation(context, 40),
+            height: heightRation(context, 40),
+          )
+        else
+          Icon(
+            Icons.check_circle,
+            size: 40,
+            color: Colors.green,
+          ),
         SizedBox(height: heightRation(context, 8)),
         TextBody12(message ?? 'تم إرسال طلبك'),
       ],
@@ -43,15 +49,14 @@ Future<void> showSuccessDialog(
 
   // ✅ قفل الدايالوج الأول
   // Navigator.of(context, rootNavigator: true).pop();
-  Get.back();
+  Navigator.pop(context);
   // ✅ استنى frame كامل عشان الدايالوج يختفي الأول
   await Future.delayed(const Duration(milliseconds: 100));
 
   if (!context.mounted) return;
 
   if (nextScreen == null) {
-    // Navigator.pop(context);
-    Get.back();
+    Navigator.pop(context);
     return;
   }
 

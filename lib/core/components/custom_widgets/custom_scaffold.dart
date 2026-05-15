@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:twafok/core/core.dart';
+import 'package:twafok_shared/core/core.dart';
 
 class CustomScaffold extends StatefulWidget {
   const CustomScaffold({
@@ -90,9 +90,9 @@ class _CustomScaffoldState extends State<CustomScaffold> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Image.asset(
-                          Assets.noInternet,
-                          width: widthRation(context, 300),
+                        Icon(
+                          Icons.signal_wifi_connected_no_internet_4_rounded,
+                          size: 200,
                         ),
                         const Center(
                           child: TextTitle(
@@ -109,9 +109,9 @@ class _CustomScaffoldState extends State<CustomScaffold> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Image.asset(
-                          Assets.noInternet,
-                          width: widthRation(context, 300),
+                        Icon(
+                          Icons.signal_wifi_connected_no_internet_4_rounded,
+                          size: 200,
                         ),
                         const Center(
                           child: TextTitle(

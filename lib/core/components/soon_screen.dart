@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:twafok/core/core.dart';
+import 'package:twafok_shared/core/core.dart';
 
 class SoonScreen extends StatelessWidget {
   const SoonScreen({super.key});
@@ -11,10 +11,11 @@ class SoonScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const Spacer(),
-        Image.asset(
-          Assets.soon,
-          width: widthRation(context, 300),
-        ),
+        // Image.asset(
+        //   Assets.soon,
+        //   width: widthRation(context, 300),
+        // ),
+        Icon(Icons.warning_amber),
         const Center(
           child: TextTitle(
             'قريبا',

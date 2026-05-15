@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:twafok/core/core.dart';
+import 'package:twafok_shared/core/core.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({

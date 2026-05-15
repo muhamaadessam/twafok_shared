@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:twafok/core/core.dart';
+import 'package:twafok_shared/core/core.dart';
 
 class CustomNetworkImage extends StatelessWidget {
   const CustomNetworkImage({
@@ -37,7 +37,7 @@ class CustomNetworkImage extends StatelessWidget {
       },
       errorBuilder: (context, error, stackTrace) {
         return Image.asset(
-          isUserImage ? Assets.imageUserPlaceholder : Assets.imagePlaceholder,
+          isUserImage ? 'assets/images/imageUserPlaceholder.png' : 'assets/images/imagePlaceholder.png',
           width: width,
           height: height,
           fit: fit,

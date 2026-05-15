@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:twafok/core/core.dart';
+import 'package:twafok_shared/core/core.dart';
 
 abstract class BaseAppRemoteDataSource {
   // Future<Either<Failure, UserEntity>> getUserData();

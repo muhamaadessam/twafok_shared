@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:twafok/core/core.dart';
+import 'package:twafok_shared/core/core.dart';
 
 void errorGetSnackBar(context, {required String title, String? message}) {
   ScaffoldMessenger.of(context).showSnackBar(
@@ -14,10 +14,10 @@ void errorGetSnackBar(context, {required String title, String? message}) {
         children: [
           Row(
             children: [
-              Image.asset(
-                Assets.alertOctagon,
-                height: heightRation(context, 24),
-                width: widthRation(context, 24),
+              Icon(
+                Icons.report_rounded,
+                size: 40,
+                color: Colors.white,
               ),
               const SizedBox(
                 width: 8,
