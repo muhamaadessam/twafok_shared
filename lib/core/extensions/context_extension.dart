@@ -40,7 +40,7 @@ extension ContextExtensions on BuildContext {
 
   Color get orderProductColor => AppColors.orderProductColor;
 
-  Color get textColor => AppColors.textColor;
+  Color get textColor => AppColors.textColor(this);
 
   Color get reverseTextColor => AppColors.reverseTextColor(this);
 

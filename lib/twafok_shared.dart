@@ -5,6 +5,7 @@ library;
 
 export 'src/twafok_shared_base.dart';
 export 'core/core.dart';
+export 'config/twafok_config.dart';
 export 'package:dartz/dartz.dart';
 export 'package:equatable/equatable.dart';
 
