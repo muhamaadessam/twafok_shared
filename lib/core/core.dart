@@ -37,3 +37,4 @@ export 'network/remote/dio_helper.dart';
 export 'network/remote/firebase_notification_helper.dart';
 export 'notifications/notifications.dart';
 export 'use_cases/use_case.dart';
+export 'notifications/local_notification_helper.dart';

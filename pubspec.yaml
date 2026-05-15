@@ -1,7 +1,7 @@
 name: twafok_shared
 description: Shared widgets, utilities, and themes for Twafok projects
 version: 1.0.0
-homepage: https://github.com/muhammadessam/twafok_shared
+homepage: https://github.com/muhamaadessam/twafok_shared
 
 environment:
   sdk: '>=3.0.0 <4.0.0'

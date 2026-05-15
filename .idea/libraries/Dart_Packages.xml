@@ -257,28 +257,21 @@
         <entry key="flutter_local_notifications">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/flutter_local_notifications-21.0.0/lib" />
+              <option value="$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/flutter_local_notifications-18.0.1/lib" />
             </list>
           </value>
         </entry>
         <entry key="flutter_local_notifications_linux">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/flutter_local_notifications_linux-8.0.0/lib" />
+              <option value="$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/flutter_local_notifications_linux-5.0.0/lib" />
             </list>
           </value>
         </entry>
         <entry key="flutter_local_notifications_platform_interface">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/flutter_local_notifications_platform_interface-11.0.0/lib" />
-            </list>
-          </value>
-        </entry>
-        <entry key="flutter_local_notifications_windows">
-          <value>
-            <list>
-              <option value="$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/flutter_local_notifications_windows-3.0.0/lib" />
+              <option value="$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/flutter_local_notifications_platform_interface-8.0.0/lib" />
             </list>
           </value>
         </entry>
@@ -761,7 +754,7 @@
         <entry key="timezone">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/timezone-0.11.0/lib" />
+              <option value="$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/timezone-0.10.1/lib" />
             </list>
           </value>
         </entry>
@@ -964,10 +957,9 @@
       <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/fixnum-1.1.1/lib" />
       <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/flutter_bloc-9.1.1/lib" />
       <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/flutter_lints-3.0.2/lib" />
-      <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/flutter_local_notifications-21.0.0/lib" />
-      <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/flutter_local_notifications_linux-8.0.0/lib" />
-      <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/flutter_local_notifications_platform_interface-11.0.0/lib" />
-      <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/flutter_local_notifications_windows-3.0.0/lib" />
+      <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/flutter_local_notifications-18.0.1/lib" />
+      <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/flutter_local_notifications_linux-5.0.0/lib" />
+      <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/flutter_local_notifications_platform_interface-8.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.34/lib" />
       <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/flutter_screenutil-5.9.3/lib" />
       <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/flutter_speed_dial-7.0.0/lib" />
@@ -1033,7 +1025,7 @@
       <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/string_scanner-1.4.1/lib" />
       <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/term_glyph-1.2.2/lib" />
       <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/test_api-0.7.10/lib" />
-      <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/timezone-0.11.0/lib" />
+      <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/timezone-0.10.1/lib" />
       <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/touchable-1.0.2/lib" />
       <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/typed_data-1.4.0/lib" />
       <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/url_launcher-6.3.2/lib" />

@@ -5,4 +5,5 @@ library;
 
 export 'src/twafok_shared_base.dart';
 export 'core/core.dart';
+export 'package:dartz/dartz.dart';
 // TODO: Export any libraries intended for clients of this package.

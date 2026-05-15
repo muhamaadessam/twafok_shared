@@ -30,9 +30,8 @@
       <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/firebase_core-4.9.0" />
       <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/firebase_messaging-16.2.2" />
       <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/firebase_messaging_web-4.1.7" />
-      <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/flutter_local_notifications-21.0.0" />
-      <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/flutter_local_notifications_linux-8.0.0" />
-      <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/flutter_local_notifications_windows-3.0.0" />
+      <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/flutter_local_notifications_linux-5.0.0" />
+      <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/flutter_local_notifications-18.0.1" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
