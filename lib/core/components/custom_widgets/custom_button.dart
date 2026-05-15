@@ -8,6 +8,7 @@ class CustomButton extends StatelessWidget {
     required this.child,
     this.backgroundColor,
     this.elevationColor,
+    this.borderColor,
     this.elevation,
     this.borderRadius,
   });
@@ -16,6 +17,7 @@ class CustomButton extends StatelessWidget {
   final Widget child;
   final Color? backgroundColor;
   final Color? elevationColor;
+  final Color? borderColor;
   final double? elevation;
   final double? borderRadius;
 
@@ -26,12 +28,18 @@ class CustomButton extends StatelessWidget {
       style: ButtonStyle(
         elevation: WidgetStateProperty.resolveWith((states) => elevation ?? 9),
         shadowColor: WidgetStateColor.resolveWith(
-            (states) => elevationColor ?? Colors.black.withValues(alpha: 0.5)),
+          (states) => elevationColor ?? Colors.black.withValues(alpha: 0.5),
+        ),
         backgroundColor: WidgetStateColor.resolveWith(
-            (states) => backgroundColor ?? context.mainColor),
+          (states) => backgroundColor ?? context.mainColor,
+        ),
         shape: WidgetStateProperty.resolveWith(
           (states) => RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(borderRadius ?? 25)),
+            borderRadius: BorderRadius.circular(borderRadius ?? 25),
+          ),
+        ),
+        side: WidgetStateProperty.resolveWith(
+          (states) => BorderSide(color: borderColor ?? Colors.transparent),
         ),
       ),
       child: child,
