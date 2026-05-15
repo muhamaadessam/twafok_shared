@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TextTitle extends StatelessWidget {
   const TextTitle(
@@ -24,7 +25,7 @@ class TextTitle extends StatelessWidget {
       text,
       style: TextStyle(
         fontWeight: fontWeight ?? FontWeight.bold,
-        fontSize: fontSize ?? 16,
+        fontSize: (fontSize ?? 24).spMax,
         color: color,
         fontFamily: 'Cairo',
       ),
@@ -58,7 +59,7 @@ class TextBody14 extends StatelessWidget {
       text,
       style: TextStyle(
         fontWeight: fontWeight ?? FontWeight.normal,
-        fontSize: fontSize ?? 14,
+        fontSize: (fontSize ?? 18).spMax,
         color: color,
         fontFamily: 'Cairo',
       ),
@@ -77,6 +78,7 @@ class TextBody12 extends StatelessWidget {
     this.fontWeight,
     this.color,
     this.overflow,
+    this.maxLines,
   });
 
   final String text;
@@ -85,6 +87,7 @@ class TextBody12 extends StatelessWidget {
   final Color? color;
   final TextAlign? textAlign;
   final TextOverflow? overflow;
+  final int? maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -92,12 +95,13 @@ class TextBody12 extends StatelessWidget {
       text,
       style: TextStyle(
         fontWeight: fontWeight ?? FontWeight.normal,
-        fontSize: fontSize ?? 12,
+        fontSize: (fontSize ?? 14).spMax,
         color: color,
         fontFamily: 'Cairo',
       ),
       textAlign: textAlign ?? TextAlign.start,
       overflow: overflow,
+      maxLines: maxLines,
     );
   }
 }
@@ -126,7 +130,7 @@ class TextDescription extends StatelessWidget {
       text,
       style: TextStyle(
         fontWeight: fontWeight ?? FontWeight.normal,
-        fontSize: fontSize ?? 10,
+        fontSize: (fontSize ?? 12).spMax,
         color: color,
         fontFamily: 'Cairo',
       ),
