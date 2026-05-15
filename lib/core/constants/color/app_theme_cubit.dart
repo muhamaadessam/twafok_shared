@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:twafok_shared/config/twafok_config.dart';
 import 'package:twafok_shared/twafok_shared.dart';
 
-import '../app_theme.dart';
 
 part 'app_theme_state.dart';
 

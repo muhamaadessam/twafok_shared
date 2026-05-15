@@ -35,7 +35,7 @@ class TwafokConfig {
 
   // ============ Cache Keys ============
   static const String _themeModeKey = 'twafok_theme_mode';
-  static const String _isDarkKey = 'twafok_is_dark';
+  // static const String _isDarkKey = 'twafok_is_dark';
   static const String _tokenKey = 'twafok_token';
   static const String _userDataKey = 'twafok_user_data';
   static const String _subDomainUrlKey = 'subDomainUrl'; // key للـ sub domain
@@ -68,6 +68,7 @@ class TwafokConfig {
     Color? errorColor,
     Color? successColor,
     Color? secondTextColor,
+    Color? borderColor,
 
     // Text
     String? fontFamily,
@@ -94,18 +95,21 @@ class TwafokConfig {
     if (appPackage != null) TwafokConfig.appPackage = appPackage;
 
     // API
-    if (baseUrl != null) TwafokConfig.baseUrl = baseUrl;
+    TwafokConfig.baseUrl = baseUrl;
     if (apiTimeout != null) TwafokConfig.apiTimeout = apiTimeout;
-    if (defaultHeaders != null)
+    if (defaultHeaders != null) {
       TwafokConfig.defaultHeaders.addAll(defaultHeaders);
+    }
 
     // Features
     if (enableLogging != null) TwafokConfig.enableLogging = enableLogging;
     if (enableAnalytics != null) TwafokConfig.enableAnalytics = enableAnalytics;
-    if (enableCrashlytics != null)
+    if (enableCrashlytics != null) {
       TwafokConfig.enableCrashlytics = enableCrashlytics;
-    if (enablePushNotifications != null)
+    }
+    if (enablePushNotifications != null) {
       TwafokConfig.enablePushNotifications = enablePushNotifications;
+    }
 
     // Theme
     if (useMaterial3 != null) TwafokConfig.useMaterial3 = useMaterial3;
@@ -124,6 +128,8 @@ class TwafokConfig {
       secondaryColor: secondaryColor,
       errorColor: errorColor,
       secondTextColor: secondTextColor,
+      borderColor: borderColor,
+      successColor: successColor,
     );
 
     // Get saved sub domain URL if exists

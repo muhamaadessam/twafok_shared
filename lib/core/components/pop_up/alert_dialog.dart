@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:twafok_shared/core/core.dart';
 
 Future<dynamic> showAlertDialog(
@@ -28,8 +29,8 @@ Future<void> showSuccessDialog(
         if (icon != null)
           Image.asset(
             icon,
-            width: widthRation(context, 40),
-            height: heightRation(context, 40),
+            width: 40.w,
+            height: 40.h,
           )
         else
           Icon(
@@ -37,7 +38,7 @@ Future<void> showSuccessDialog(
             size: 40,
             color: Colors.green,
           ),
-        SizedBox(height: heightRation(context, 8)),
+        SizedBox(height: 8.h),
         TextBody12(message ?? 'تم إرسال طلبك'),
       ],
     ),

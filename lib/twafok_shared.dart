@@ -3,11 +3,7 @@
 /// More dartdocs go here.
 library;
 
-export 'src/twafok_shared_base.dart';
+export 'config/config.dart';
 export 'core/core.dart';
-export 'config/twafok_config.dart';
-export 'package:dartz/dartz.dart';
-export 'package:equatable/equatable.dart';
-export 'config/dio_config.dart';
-
-// TODO: Export any libraries intended for clients of this package.
+export 'packages.dart';
+export 'src/twafok_shared_base.dart';

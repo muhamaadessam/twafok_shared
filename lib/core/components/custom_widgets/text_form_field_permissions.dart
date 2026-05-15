@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:twafok_shared/core/core.dart';
 
 class TextFormFieldPermissions extends StatelessWidget {
@@ -51,8 +52,8 @@ class TextFormFieldPermissions extends StatelessWidget {
             child: suffixIcon != null
                 ? Image.asset(
                     'assets/png/$suffixIcon.png',
-                    width: widthRation(context, 14),
-                    height: widthRation(context, 14),
+                    width: 14.w,
+                    height: 14.w,
                   )
                 : null,
           ),
