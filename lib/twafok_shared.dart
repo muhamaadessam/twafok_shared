@@ -5,5 +5,4 @@ library;
 
 export 'config/config.dart';
 export 'core/core.dart';
-export 'packages.dart';
 export 'src/twafok_shared_base.dart';
