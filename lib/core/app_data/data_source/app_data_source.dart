@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:twafok_shared/core/core.dart';
 
+import '../../../config/dio_config.dart';
+
 abstract class BaseAppRemoteDataSource {
   // Future<Either<Failure, UserEntity>> getUserData();
   //

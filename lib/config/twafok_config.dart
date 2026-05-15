@@ -131,7 +131,7 @@ class TwafokConfig {
     final finalBaseUrl = savedSubDomainUrl ?? baseUrl ?? TwafokConfig.baseUrl;
 
     // ============ Initialize Dio Config ============
-    await DioConfig.init(
+    await DioHelper.init(
       baseUrl: finalBaseUrl.toString(),
       connectionTimeout: apiTimeout ?? const Duration(seconds: 30),
       enableLogging: enableApiLogging ?? enableLogging ?? true,
@@ -176,7 +176,7 @@ class TwafokConfig {
       await CacheHelper.remove(key: _tokenKey);
     }
     // Update Dio headers
-    await DioConfig.updateToken(token);
+    await DioHelper.updateToken(token);
   }
 
   static String? getToken() {
@@ -193,10 +193,10 @@ class TwafokConfig {
   static Future<void> setSubDomainUrl(String? url) async {
     if (url != null && url.isNotEmpty) {
       await CacheHelper.put(key: _subDomainUrlKey, value: url);
-      await DioConfig.updateBaseUrl(url);
+      await DioHelper.updateBaseUrl(url);
     } else {
       await CacheHelper.remove(key: _subDomainUrlKey);
-      await DioConfig.updateBaseUrl(baseUrl);
+      await DioHelper.updateBaseUrl(baseUrl);
     }
   }
 
@@ -208,7 +208,7 @@ class TwafokConfig {
   // ============ API Base URL Management ============
   static Future<void> setBaseUrl(String newBaseUrl) async {
     baseUrl = newBaseUrl;
-    await DioConfig.updateBaseUrl(newBaseUrl);
+    await DioHelper.updateBaseUrl(newBaseUrl);
   }
 
   // ============ User Data Management ============
@@ -240,7 +240,7 @@ class TwafokConfig {
     await setThemeMode(ThemeMode.system);
 
     // Clear Dio
-    DioConfig.dispose();
+    DioHelper.dispose();
   }
 
   // ============ Getters ============
@@ -261,41 +261,41 @@ class TwafokConfig {
   }
 
   // ============ Dio Instance ============
-  static Dio get dio => DioConfig.dio;
+  static Dio get dio => DioHelper.dio;
 
   // ============ API Methods (Shortcuts) ============
   static Future<Either<Failure, Map<String, dynamic>>> get({
     required String endPoint,
     Map<String, dynamic>? query,
   }) {
-    return DioConfig.getData(endPoint: endPoint, query: query);
+    return DioHelper.getData(endPoint: endPoint, query: query);
   }
 
   static Future<Either<Failure, Map<String, dynamic>>> post({
     required String endPoint,
     dynamic data,
   }) {
-    return DioConfig.postData(endPoint: endPoint, data: data);
+    return DioHelper.postData(endPoint: endPoint, data: data);
   }
 
   static Future<Either<Failure, Map<String, dynamic>>> put({
     required String endPoint,
     dynamic data,
   }) {
-    return DioConfig.putData(endPoint: endPoint, data: data);
+    return DioHelper.putData(endPoint: endPoint, data: data);
   }
 
   static Future<Either<Failure, Map<String, dynamic>>> patch({
     required String endPoint,
     required dynamic data,
   }) {
-    return DioConfig.patchData(endPoint: endPoint, data: data);
+    return DioHelper.patchData(endPoint: endPoint, data: data);
   }
 
   static Future<Either<Failure, Map<String, dynamic>>> delete({
     required String endPoint,
     dynamic data,
   }) {
-    return DioConfig.deleteData(endPoint: endPoint, data: data);
+    return DioHelper.deleteData(endPoint: endPoint, data: data);
   }
 }

@@ -11,7 +11,7 @@ import 'twafok_config.dart';
 
 export 'package:dio/dio.dart';
 
-class DioConfig {
+class DioHelper {
   static Dio? _dio;
   static bool _isInitialized = false;
 
@@ -68,22 +68,22 @@ class DioConfig {
     if (_isInitialized) return;
 
     // Update config
-    DioConfig.baseUrl = baseUrl;
+    DioHelper.baseUrl = baseUrl;
     if (connectionTimeout != null) {
-      DioConfig.connectionTimeout = connectionTimeout;
+      DioHelper.connectionTimeout = connectionTimeout;
     }
-    if (receiveTimeout != null) DioConfig.receiveTimeout = receiveTimeout;
-    if (sendTimeout != null) DioConfig.sendTimeout = sendTimeout;
-    if (enableLogging != null) DioConfig.enableLogging = enableLogging;
+    if (receiveTimeout != null) DioHelper.receiveTimeout = receiveTimeout;
+    if (sendTimeout != null) DioHelper.sendTimeout = sendTimeout;
+    if (enableLogging != null) DioHelper.enableLogging = enableLogging;
     if (enablePrettyLogger != null) {
-      DioConfig.enablePrettyLogger = enablePrettyLogger;
+      DioHelper.enablePrettyLogger = enablePrettyLogger;
     }
-    if (enableLogscope != null) DioConfig.enableLogscope = enableLogscope;
-    if (defaultHeaders != null) DioConfig.defaultHeaders.addAll(defaultHeaders);
+    if (enableLogscope != null) DioHelper.enableLogscope = enableLogscope;
+    if (defaultHeaders != null) DioHelper.defaultHeaders.addAll(defaultHeaders);
 
     // Get base URL from cache or use config
     final cachedSubDomainUrl = CacheHelper.get(key: 'subDomainUrl');
-    final finalBaseUrl = cachedSubDomainUrl ?? DioConfig.baseUrl;
+    final finalBaseUrl = cachedSubDomainUrl ?? DioHelper.baseUrl;
 
     // Create Dio instance
     _dio = Dio(
@@ -91,9 +91,9 @@ class DioConfig {
         baseUrl: finalBaseUrl,
         receiveDataWhenStatusError: true,
         headers: headers,
-        connectTimeout: connectionTimeout ?? DioConfig.connectionTimeout,
-        receiveTimeout: receiveTimeout ?? DioConfig.receiveTimeout,
-        sendTimeout: sendTimeout ?? DioConfig.sendTimeout,
+        connectTimeout: connectionTimeout ?? DioHelper.connectionTimeout,
+        receiveTimeout: receiveTimeout ?? DioHelper.receiveTimeout,
+        sendTimeout: sendTimeout ?? DioHelper.sendTimeout,
       ),
     );
 
