@@ -48,7 +48,7 @@ class TwafokConfig {
     String? appPackage,
 
     // API
-    String? baseUrl,
+    required String baseUrl,
     Duration? apiTimeout,
     Map<String, String>? defaultHeaders,
 
@@ -96,13 +96,16 @@ class TwafokConfig {
     // API
     if (baseUrl != null) TwafokConfig.baseUrl = baseUrl;
     if (apiTimeout != null) TwafokConfig.apiTimeout = apiTimeout;
-    if (defaultHeaders != null) TwafokConfig.defaultHeaders.addAll(defaultHeaders);
+    if (defaultHeaders != null)
+      TwafokConfig.defaultHeaders.addAll(defaultHeaders);
 
     // Features
     if (enableLogging != null) TwafokConfig.enableLogging = enableLogging;
     if (enableAnalytics != null) TwafokConfig.enableAnalytics = enableAnalytics;
-    if (enableCrashlytics != null) TwafokConfig.enableCrashlytics = enableCrashlytics;
-    if (enablePushNotifications != null) TwafokConfig.enablePushNotifications = enablePushNotifications;
+    if (enableCrashlytics != null)
+      TwafokConfig.enableCrashlytics = enableCrashlytics;
+    if (enablePushNotifications != null)
+      TwafokConfig.enablePushNotifications = enablePushNotifications;
 
     // Theme
     if (useMaterial3 != null) TwafokConfig.useMaterial3 = useMaterial3;
@@ -153,7 +156,8 @@ class TwafokConfig {
 
   static bool isDarkMode() {
     if (currentThemeMode == ThemeMode.system) {
-      final brightness = WidgetsBinding.instance.platformDispatcher.platformBrightness;
+      final brightness =
+          WidgetsBinding.instance.platformDispatcher.platformBrightness;
       return brightness == Brightness.dark;
     }
     return currentThemeMode == ThemeMode.dark;

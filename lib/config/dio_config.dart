@@ -16,7 +16,7 @@ class DioConfig {
   static bool _isInitialized = false;
 
   // ============ Configuration ============
-  static String baseUrl = 'https://twafok.com/api/';
+  static String baseUrl = '';
   static Duration connectionTimeout = const Duration(seconds: 30);
   static Duration receiveTimeout = const Duration(seconds: 30);
   static Duration sendTimeout = const Duration(seconds: 30);
@@ -55,7 +55,7 @@ class DioConfig {
 
   // ============ Initialization ============
   static Future<void> init({
-    String? baseUrl,
+    required String baseUrl,
     Duration? connectionTimeout,
     Duration? receiveTimeout,
     Duration? sendTimeout,
@@ -68,14 +68,16 @@ class DioConfig {
     if (_isInitialized) return;
 
     // Update config
-    if (baseUrl != null) DioConfig.baseUrl = baseUrl;
-    if (connectionTimeout != null)
+    DioConfig.baseUrl = baseUrl;
+    if (connectionTimeout != null) {
       DioConfig.connectionTimeout = connectionTimeout;
+    }
     if (receiveTimeout != null) DioConfig.receiveTimeout = receiveTimeout;
     if (sendTimeout != null) DioConfig.sendTimeout = sendTimeout;
     if (enableLogging != null) DioConfig.enableLogging = enableLogging;
-    if (enablePrettyLogger != null)
+    if (enablePrettyLogger != null) {
       DioConfig.enablePrettyLogger = enablePrettyLogger;
+    }
     if (enableLogscope != null) DioConfig.enableLogscope = enableLogscope;
     if (defaultHeaders != null) DioConfig.defaultHeaders.addAll(defaultHeaders);
 
@@ -127,11 +129,11 @@ class DioConfig {
   // ============ Re-initialization ============
   static Future<void> reInit() async {
     if (!_isInitialized) {
-      await init();
+      await init(baseUrl: baseUrl);
     } else {
       final oldDio = _dio;
       _dio = null;
-      await init();
+      await init(baseUrl: baseUrl);
       if (oldDio != null) {
         // Dispose old dio if needed
         oldDio.close();
@@ -281,8 +283,9 @@ class DioConfig {
         final message = error.response?.data['data']?['message'] ??
             error.response?.data['message'] ??
             'Bad response from server';
-        if (kDebugMode)
+        if (kDebugMode) {
           print('Bad response: ${error.response?.statusCode} - $message');
+        }
         return message;
 
       case DioExceptionType.cancel:
@@ -312,7 +315,7 @@ class DioConfig {
 
 // وأضف دالة جديدة:
   static Future<void> syncWithTwafokConfig() async {
-    final token = await TwafokConfig.getToken();
+    final token = TwafokConfig.getToken();
     if (token != null) {
       await updateToken(token);
     }
