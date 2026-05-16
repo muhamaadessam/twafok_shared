@@ -518,11 +518,31 @@ class DioHelper {
   static Map<String, dynamic> _handleResponse(Response response) {
     final data = response.data;
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      return data;
+    /// 1. Safety check
+    if (data is! Map<String, dynamic>) {
+      throw Exception('Invalid response format');
     }
 
-    throw Exception(data?['message'] ?? 'Unknown error');
+    /// 2. Extract status safely (body OR HTTP fallback)
+    final int? bodyStatus = data['statusCode'];
+    final int httpStatus = response.statusCode ?? 0;
+
+    final isSuccess =
+        (httpStatus == 200 || httpStatus == 201) &&
+            (bodyStatus == null || bodyStatus == 200);
+
+    /// 3. Handle error case
+    if (!isSuccess) {
+      final message =
+          data['data']?['message'] ??
+              data['message'] ??
+              'Unknown error';
+
+      throw Exception(message);
+    }
+
+    /// 4. Return normalized data
+    return data;
   }
 
   // ===================== ERROR =====================
