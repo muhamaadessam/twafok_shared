@@ -1,14 +1,29 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:twafok_shared/core/core.dart';
+
+import '../../notifications/local_notification_helper.dart';
+import '../local/cache_helper.dart';
+
+
+
+@pragma('vm:entry-point')
+Future<void> firebaseMessagingBackgroundHandler(
+    RemoteMessage message,
+    ) async {
+  // await Firebase.initializeApp();
+
+  debugPrint(
+    'Background Message: ${message.notification?.title}',
+  );
+}
 
 class FirebaseNotificationHelper {
-  static FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+  static final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+
   static String? firebaseToken;
 
   static Future<void> init() async {
+    /// Request permissions
     await firebaseMessaging.requestPermission(
       alert: true,
       announcement: false,
@@ -19,83 +34,65 @@ class FirebaseNotificationHelper {
       sound: true,
     );
 
+    /// FCM token
     firebaseToken = await firebaseMessaging.getToken();
-    await initPushNotification();
-  }
+    CacheHelper.put(key: 'firebaseToken', value: firebaseToken!);
 
-  static Future<void> firebaseMessagingBackgroundHandler(
-      RemoteMessage message) async {
-    await Firebase.initializeApp();
+    debugPrint('==> FCM Token: $firebaseToken');
 
-    const AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails('your channel id', 'your channel name',
-            channelDescription: 'your channel description',
-            importance: Importance.max,
-            priority: Priority.high,
-            ticker: 'ticker');
-    const NotificationDetails notificationDetails =
-        NotificationDetails(android: androidNotificationDetails);
-
-    await LocalNotificationHelper.flutterLocalNotificationsPlugin.show(
-        0,
-        message.notification!.title,
-        message.notification!.body,
-        notificationDetails,
-        payload: 'item x');
-
-    debugPrint('message :: ${message.notification!.title}');
-    debugPrint('sent');
-  }
-
-  static Future<void> handleMessage(RemoteMessage? message) async {
-    if (message == null) return;
-    await Firebase.initializeApp();
-
-    const AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails('your channel id', 'your channel name',
-            channelDescription: 'your channel description',
-            importance: Importance.max,
-            priority: Priority.high,
-            ticker: 'ticker');
-    const NotificationDetails notificationDetails =
-        NotificationDetails(android: androidNotificationDetails);
-
-    await LocalNotificationHelper.flutterLocalNotificationsPlugin.show(
-        0,
-        message.notification!.title,
-        message.notification!.body,
-        notificationDetails,
-        payload: 'item x');
-
-    // const AndroidNotificationDetails androidNotificationDetails =
-    //     AndroidNotificationDetails('1', 'repeating channel name',
-    //         channelDescription: 'repeating description');
-    //
-    // const DarwinNotificationDetails iOSPlatformChannelSpecifics =
-    //     DarwinNotificationDetails(threadIdentifier: 'thread_id');
-    //
-    // const NotificationDetails notificationDetails = NotificationDetails(
-    //     android: androidNotificationDetails, iOS: iOSPlatformChannelSpecifics);
-    // await NotificationHelper.flutterLocalNotificationsPlugin.show(
-    //     1,
-    //     message.notification!.title,
-    //     message.notification!.body,
-    //     notificationDetails);
-
-    debugPrint('message :: ${message.notification!.title}');
-    debugPrint('send');
-  }
-
-  static Future initPushNotification() async {
-    await FirebaseMessaging.instance
-        .setForegroundNotificationPresentationOptions(
-      alert: true,
-      badge: true,
-      sound: true,
+    /// iOS foreground notification presentation
+    await firebaseMessaging.setForegroundNotificationPresentationOptions(
+      alert: false,
+      badge: false,
+      sound: false,
     );
-    await FirebaseMessaging.instance.getInitialMessage().then(handleMessage);
-    FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
-    FirebaseMessaging.onMessage.listen(handleMessage);
-    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
+    /// Background handler
+    FirebaseMessaging.onBackgroundMessage(
+      firebaseMessagingBackgroundHandler,
+    );
+
+    /// Foreground notifications
+    FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
+
+    /// App opened from background notification
+    FirebaseMessaging.onMessageOpenedApp.listen(
+      _handleNotificationClick,
+    );
+
+    /// App opened from terminated notification
+    final initialMessage = await firebaseMessaging.getInitialMessage();
+
+    if (initialMessage != null) {
+      _handleNotificationClick(initialMessage);
+    }
+  }
+
+  /// Foreground notification
+  static Future<void> _handleForegroundMessage(
+      RemoteMessage message,
+      ) async {
+    debugPrint(
+      'Foreground Message: ${message.notification?.title}',
+    );
+
+    final notification = message.notification;
+
+    if (notification == null) return;
+
+    await LocalNotificationHelper.show(
+      title: notification.title ?? '',
+      body: notification.body ?? '',
+      payload: message.data.toString(),
+    );
+  }
+
+  /// Notification click handling
+  static void _handleNotificationClick(
+      RemoteMessage message,
+      ) {
+    debugPrint(
+      'Notification Clicked: ${message.data}',
+    );
   }
 }

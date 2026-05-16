@@ -1,1 +1,2 @@
-export 'package:equatable/equatable.dart';
+export 'dartz.dart';
+export 'equatable.dart';
