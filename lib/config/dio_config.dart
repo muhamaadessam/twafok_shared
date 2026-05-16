@@ -435,9 +435,10 @@ class DioHelper {
 
   // ===================== CORE REQUEST =====================
   @protected
-  static Future<Result<Map<String, dynamic>>> request({
+  static Future<Result<T>> request<T>({
     required String method,
     required String endpoint,
+    required T Function(Map<String, dynamic>) fromJson,
     dynamic data,
     Map<String, dynamic>? query,
   }) async {
@@ -449,7 +450,9 @@ class DioHelper {
         options: Options(method: method),
       );
 
-      return Success(_handleResponse(response));
+      final model = _handleResponse<T>(response, fromJson);
+
+      return Success(model);
     } on DioException catch (e) {
       return Error(ServerFailure(_handleError(e)));
     } catch (e) {
@@ -458,64 +461,106 @@ class DioHelper {
   }
 
   // ===================== CRUD METHODS =====================
-  static Future<Result<Map<String, dynamic>>> getData({
+  static Future<Result<T>> getData<T>({
     required String endPoint,
+    required T Function(Map<String, dynamic>) fromJson,
     Map<String, dynamic>? query,
   }) {
-    return request(
+    return request<T>(
       method: 'GET',
       endpoint: endPoint,
       query: query,
+      fromJson: fromJson,
     );
   }
 
-  static Future<Result<Map<String, dynamic>>> postData({
+  static Future<Result<T>> postData<T>({
     required String endPoint,
+    required T Function(Map<String, dynamic>) fromJson,
     dynamic data,
   }) {
-    return request(
+    return request<T>(
       method: 'POST',
       endpoint: endPoint,
       data: data,
+      fromJson: fromJson,
     );
   }
 
-  static Future<Result<Map<String, dynamic>>> putData({
+  static Future<Result<T>> putData<T>({
     required String endPoint,
+    required T Function(Map<String, dynamic>) fromJson,
     dynamic data,
   }) {
-    return request(
+    return request<T>(
       method: 'PUT',
       endpoint: endPoint,
       data: data,
+      fromJson: fromJson,
     );
   }
 
-  static Future<Result<Map<String, dynamic>>> patchData({
+  static Future<Result<T>> patchData<T>({
     required String endPoint,
+    required T Function(Map<String, dynamic>) fromJson,
     dynamic data,
   }) {
-    return request(
+    return request<T>(
       method: 'PATCH',
       endpoint: endPoint,
       data: data,
+      fromJson: fromJson,
     );
   }
 
-  static Future<Result<Map<String, dynamic>>> deleteData({
+  static Future<Result<T>> deleteData<T>({
     required String endPoint,
+    required T Function(Map<String, dynamic>) fromJson,
     dynamic data,
   }) {
-    return request(
+    return request<T>(
       method: 'DELETE',
       endpoint: endPoint,
       data: data,
+      fromJson: fromJson,
     );
   }
 
   // ===================== RESPONSE =====================
 
-  static Map<String, dynamic> _handleResponse(Response response) {
+  // static Map<String, dynamic> _handleResponse(Response response) {
+  //   final data = response.data;
+  //
+  //   /// 1. Safety check
+  //   if (data is! Map<String, dynamic>) {
+  //     throw Exception('Invalid response format');
+  //   }
+  //
+  //   /// 2. Extract status safely (body OR HTTP fallback)
+  //   final int? bodyStatus = data['statusCode'];
+  //   final int httpStatus = response.statusCode ?? 0;
+  //
+  //   final isSuccess =
+  //       (httpStatus == 200 || httpStatus == 201) &&
+  //           (bodyStatus == null || bodyStatus == 200);
+  //
+  //   /// 3. Handle error case
+  //   if (!isSuccess) {
+  //     final message =
+  //         data['data']?['message'] ??
+  //             data['message'] ??
+  //             'Unknown error';
+  //
+  //     throw Exception(message);
+  //   }
+  //
+  //   /// 4. Return normalized data
+  //   return data;
+  // }
+  static T _handleResponse<T>(
+    Response response,
+    T Function(Map<String, dynamic>) fromJson,
+  ) {
     final data = response.data;
 
     /// 1. Safety check
@@ -527,22 +572,19 @@ class DioHelper {
     final int? bodyStatus = data['statusCode'];
     final int httpStatus = response.statusCode ?? 0;
 
-    final isSuccess =
-        (httpStatus == 200 || httpStatus == 201) &&
-            (bodyStatus == null || bodyStatus == 200);
+    final isSuccess = (httpStatus == 200 || httpStatus == 201) &&
+        (bodyStatus == null || bodyStatus == 200);
 
     /// 3. Handle error case
     if (!isSuccess) {
       final message =
-          data['data']?['message'] ??
-              data['message'] ??
-              'Unknown error';
+          data['data']?['message'] ?? data['message'] ?? 'Unknown error';
 
       throw Exception(message);
     }
 
     /// 4. Return normalized data
-    return data;
+    return fromJson(data['data']);
   }
 
   // ===================== ERROR =====================
