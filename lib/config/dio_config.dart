@@ -1,110 +1,415 @@
-// lib/config/dio_config.dart
-import 'package:dartz/dartz.dart';
+// // lib/config/dio_config.dart
+// import 'package:dio/dio.dart';
+// import 'package:flutter/foundation.dart';
+// import 'package:logscope_flutter/logscope_flutter.dart';
+// import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+// import 'package:twafok_shared/core/error/failure.dart';
+//
+// import '../core/network/local/cache_helper.dart';
+// import '../core/network/remote/result_helper.dart';
+// import 'twafok_config.dart';
+//
+// export 'package:dio/dio.dart';
+//
+// class DioHelper {
+//   static Dio? _dio;
+//   static bool _isInitialized = false;
+//
+//   // ============ Configuration ============
+//   static String baseUrl = '';
+//   static Duration connectionTimeout = const Duration(seconds: 30);
+//   static Duration receiveTimeout = const Duration(seconds: 30);
+//   static Duration sendTimeout = const Duration(seconds: 30);
+//
+//   // ============ Features ============
+//   static bool enableLogging = true;
+//   static bool enablePrettyLogger = true;
+//   static bool enableLogscope = true;
+//
+//   // ============ Headers ============
+//   static Map<String, String> defaultHeaders = {
+//     'Accept': 'application/json',
+//     'Content-Type': 'application/json',
+//   };
+//
+//   // ============ Getters ============
+//   static Dio get dio {
+//     if (_dio == null) {
+//       throw Exception(
+//           'DioHelper not initialized. Call DioConfig.init() first.');
+//     }
+//     return _dio!;
+//   }
+//
+//   static bool get isInitialized => _isInitialized;
+//
+//   // ============ Headers with Token ============
+//   static Map<String, String> get headers {
+//     final headers = Map<String, String>.from(defaultHeaders);
+//     final token = CacheHelper.get(key: 'accessToken');
+//     if (token != null && token.toString().isNotEmpty) {
+//       headers['Authorization'] = 'Bearer $token';
+//     }
+//     return headers;
+//   }
+//
+//   // ============ Initialization ============
+//   static Future<void> init({
+//     required String baseUrl,
+//     Duration? connectionTimeout,
+//     Duration? receiveTimeout,
+//     Duration? sendTimeout,
+//     bool? enableLogging,
+//     bool? enablePrettyLogger,
+//     bool? enableLogscope,
+//     Map<String, String>? defaultHeaders,
+//     List<Interceptor>? customInterceptors,
+//   }) async {
+//     if (_isInitialized) return;
+//
+//     // Update config
+//     DioHelper.baseUrl = baseUrl;
+//     if (connectionTimeout != null) {
+//       DioHelper.connectionTimeout = connectionTimeout;
+//     }
+//     if (receiveTimeout != null) DioHelper.receiveTimeout = receiveTimeout;
+//     if (sendTimeout != null) DioHelper.sendTimeout = sendTimeout;
+//     if (enableLogging != null) DioHelper.enableLogging = enableLogging;
+//     if (enablePrettyLogger != null) {
+//       DioHelper.enablePrettyLogger = enablePrettyLogger;
+//     }
+//     if (enableLogscope != null) DioHelper.enableLogscope = enableLogscope;
+//     if (defaultHeaders != null) DioHelper.defaultHeaders.addAll(defaultHeaders);
+//
+//     // Get base URL from cache or use config
+//     final cachedSubDomainUrl = CacheHelper.get(key: 'subDomainUrl');
+//     final finalBaseUrl = cachedSubDomainUrl ?? DioHelper.baseUrl;
+//
+//     // Create Dio instance
+//     _dio = Dio(
+//       BaseOptions(
+//         baseUrl: finalBaseUrl,
+//         receiveDataWhenStatusError: true,
+//         headers: headers,
+//         connectTimeout: connectionTimeout ?? DioHelper.connectionTimeout,
+//         receiveTimeout: receiveTimeout ?? DioHelper.receiveTimeout,
+//         sendTimeout: sendTimeout ?? DioHelper.sendTimeout,
+//       ),
+//     );
+//
+//     // Add interceptors
+//     final interceptors = <Interceptor>[];
+//
+//     if (enablePrettyLogger == true && kDebugMode) {
+//       interceptors.add(
+//         PrettyDioLogger(
+//           requestHeader: true,
+//           requestBody: true,
+//           responseBody: true,
+//           responseHeader: false,
+//           error: true,
+//           compact: true,
+//         ),
+//       );
+//     }
+//
+//     if (enableLogscope == true) {
+//       interceptors.add(Logscope.dioInterceptor());
+//     }
+//
+//     if (customInterceptors != null) {
+//       interceptors.addAll(customInterceptors);
+//     }
+//
+//     _dio!.interceptors.addAll(interceptors);
+//
+//     _isInitialized = true;
+//   }
+//
+//   // ============ Re-initialization ============
+//   static Future<void> reInit() async {
+//     if (!_isInitialized) {
+//       await init(baseUrl: baseUrl);
+//     } else {
+//       final oldDio = _dio;
+//       _dio = null;
+//       await init(baseUrl: baseUrl);
+//       if (oldDio != null) {
+//         // Dispose old dio if needed
+//         oldDio.close();
+//       }
+//     }
+//   }
+//
+//   // ============ Update Base URL ============
+//   static Future<void> updateBaseUrl(String newBaseUrl) async {
+//     baseUrl = newBaseUrl;
+//     await CacheHelper.put(key: 'subDomainUrl', value: newBaseUrl);
+//     await reInit();
+//   }
+//
+//   // ============ API Methods ============
+//   static Future<Result<Map<String, dynamic>>> getData({
+//     required String endPoint,
+//     String? refreshToken,
+//     Map<String, dynamic>? query,
+//   }) async {
+//     try {
+//       final response = await _dio!.get(
+//         endPoint,
+//         queryParameters: query,
+//       );
+//
+//       if (response.data['statusCode'] == 200) {
+//         return Success(response.data);
+//       } else {
+//         final message = response.data['data']?['message'] ?? 'Unknown error';
+//         if (kDebugMode) print(message);
+//         return Error(ServerFailure(message));
+//       }
+//     } on DioException catch (e) {
+//       return Error(ServerFailure(handleError(e)));
+//     } catch (e) {
+//       return Error(ServerFailure(e.toString()));
+//     }
+//   }
+//
+//   static Future<Result<Map<String, dynamic>>> postData({
+//     required String endPoint,
+//     dynamic data,
+//   }) async {
+//     try {
+//       final response = await _dio!.post(
+//         endPoint,
+//         data: data,
+//       );
+//
+//       if (response.data['statusCode'] == 200) {
+//         return Success(response.data);
+//       } else {
+//         final message = response.data['data']?['message'] ?? 'Unknown error';
+//         if (kDebugMode) print(message);
+//         return Error(ServerFailure(message));
+//       }
+//     } on DioException catch (e) {
+//       return Error(ServerFailure(handleError(e)));
+//     } catch (e) {
+//       return Error(ServerFailure(e.toString()));
+//     }
+//   }
+//
+//   static Future<Result<Map<String, dynamic>>> putData({
+//     required String endPoint,
+//     dynamic data,
+//   }) async {
+//     try {
+//       final response = await _dio!.put(
+//         endPoint,
+//         data: data,
+//       );
+//
+//       if (response.data['statusCode'] == 200) {
+//         return Success(response.data);
+//       } else {
+//         final message = response.data['data']?['message'] ?? 'Unknown error';
+//         if (kDebugMode) print(message);
+//         return Error(ServerFailure(message));
+//       }
+//     } on DioException catch (e) {
+//       return Error(ServerFailure(handleError(e)));
+//     } catch (e) {
+//       return Error(ServerFailure(e.toString()));
+//     }
+//   }
+//
+//   static Future<Result<Map<String, dynamic>>> patchData({
+//     required String? endPoint,
+//     required dynamic data,
+//   }) async {
+//     try {
+//       final response = await _dio!.patch(
+//         '$endPoint',
+//         data: data,
+//       );
+//
+//       if (response.data['statusCode'] == 200) {
+//         return Success(response.data);
+//       } else {
+//         final message = response.data['data']?['message'] ?? 'Unknown error';
+//         if (kDebugMode) print(message);
+//         return Error(ServerFailure(message));
+//       }
+//     } on DioException catch (e) {
+//       return Error(ServerFailure(handleError(e)));
+//     } catch (e) {
+//       return Error(ServerFailure(e.toString()));
+//     }
+//   }
+//
+//   static Future<Result<Map<String, dynamic>>> deleteData({
+//     required String endPoint,
+//     dynamic data,
+//   }) async {
+//     try {
+//       final response = await _dio!.delete(
+//         endPoint,
+//         data: data,
+//       );
+//
+//       if (response.data['statusCode'] == 200) {
+//         return Success(response.data);
+//       } else {
+//         final message = response.data['data']?['message'] ?? 'Unknown error';
+//         if (kDebugMode) print(message);
+//         return Error(ServerFailure(message));
+//       }
+//     } on DioException catch (e) {
+//       return Error(ServerFailure(handleError(e)));
+//     } catch (e) {
+//       return Error(ServerFailure(e.toString()));
+//     }
+//   }
+//
+//   // ============ Error Handling ============
+//   static String handleError(DioException error) {
+//     switch (error.type) {
+//       case DioExceptionType.connectionTimeout:
+//       case DioExceptionType.sendTimeout:
+//       case DioExceptionType.receiveTimeout:
+//         if (kDebugMode) print('Timeout error: ${error.message}');
+//         return error.message ?? 'Connection timeout';
+//
+//       case DioExceptionType.badResponse:
+//         final message = error.response?.data['data']?['message'] ??
+//             error.response?.data['message'] ??
+//             'Bad response from server';
+//         if (kDebugMode) {
+//           print('Bad response: ${error.response?.statusCode} - $message');
+//         }
+//         return message;
+//
+//       case DioExceptionType.cancel:
+//         if (kDebugMode) print('Request cancelled');
+//         return 'Request cancelled';
+//
+//       case DioExceptionType.connectionError:
+//         if (kDebugMode) print('Connection error: ${error.message}');
+//         return 'No internet connection';
+//
+//       default:
+//         if (kDebugMode) print('Error: ${error.message}');
+//         return error.message ?? 'Unknown error occurred';
+//     }
+//   }
+//
+//   static Future<void> updateToken(String? token) async {
+//     if (token != null) {
+//       await CacheHelper.put(key: 'accessToken', value: token);
+//     } else {
+//       await CacheHelper.remove(key: 'accessToken');
+//     }
+//     // Update headers for next requests
+//     _dio?.options.headers['Authorization'] =
+//         token != null ? 'Bearer $token' : null;
+//   }
+//
+// // وأضف دالة جديدة:
+//   static Future<void> syncWithTwafokConfig() async {
+//     final token = TwafokConfig.getToken();
+//     if (token != null) {
+//       await updateToken(token);
+//     }
+//   }
+//
+//   // ============ Dispose ============
+//   static void dispose() {
+//     _dio?.close();
+//     _dio = null;
+//     _isInitialized = false;
+//   }
+// }
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logscope_flutter/logscope_flutter.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:twafok_shared/core/error/failure.dart';
 
+import '../core/error/failure.dart';
 import '../core/network/local/cache_helper.dart';
+import '../core/network/remote/result_helper.dart';
 import 'twafok_config.dart';
 
 export 'package:dio/dio.dart';
 
 class DioHelper {
   static Dio? _dio;
-  static bool _isInitialized = false;
+  static bool _initialized = false;
 
-  // ============ Configuration ============
   static String baseUrl = '';
-  static Duration connectionTimeout = const Duration(seconds: 30);
+
+  static Duration connectTimeout = const Duration(seconds: 30);
   static Duration receiveTimeout = const Duration(seconds: 30);
   static Duration sendTimeout = const Duration(seconds: 30);
 
-  // ============ Features ============
-  static bool enableLogging = true;
-  static bool enablePrettyLogger = true;
-  static bool enableLogscope = true;
-
-  // ============ Headers ============
   static Map<String, String> defaultHeaders = {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
   };
 
-  // ============ Getters ============
   static Dio get dio {
     if (_dio == null) {
-      throw Exception(
-          'DioHelper not initialized. Call DioConfig.init() first.');
+      throw Exception('DioHelper not initialized');
     }
     return _dio!;
   }
 
-  static bool get isInitialized => _isInitialized;
-
-  // ============ Headers with Token ============
-  static Map<String, String> get headers {
-    final headers = Map<String, String>.from(defaultHeaders);
-    final token = CacheHelper.get(key: 'accessToken');
-    if (token != null && token.toString().isNotEmpty) {
-      headers['Authorization'] = 'Bearer $token';
-    }
-    return headers;
-  }
-
-  // ============ Initialization ============
   static Future<void> init({
     required String baseUrl,
+    bool enableLogging = true,
+    bool enablePrettyLogger = true,
+    bool enableLogscope = true,
     Duration? connectionTimeout,
     Duration? receiveTimeout,
     Duration? sendTimeout,
-    bool? enableLogging,
-    bool? enablePrettyLogger,
-    bool? enableLogscope,
     Map<String, String>? defaultHeaders,
     List<Interceptor>? customInterceptors,
   }) async {
-    if (_isInitialized) return;
+    if (_initialized) return;
 
-    // Update config
     DioHelper.baseUrl = baseUrl;
-    if (connectionTimeout != null) {
-      DioHelper.connectionTimeout = connectionTimeout;
-    }
-    if (receiveTimeout != null) DioHelper.receiveTimeout = receiveTimeout;
-    if (sendTimeout != null) DioHelper.sendTimeout = sendTimeout;
-    if (enableLogging != null) DioHelper.enableLogging = enableLogging;
-    if (enablePrettyLogger != null) {
-      DioHelper.enablePrettyLogger = enablePrettyLogger;
-    }
-    if (enableLogscope != null) DioHelper.enableLogscope = enableLogscope;
-    if (defaultHeaders != null) DioHelper.defaultHeaders.addAll(defaultHeaders);
 
-    // Get base URL from cache or use config
-    final cachedSubDomainUrl = CacheHelper.get(key: 'subDomainUrl');
-    final finalBaseUrl = cachedSubDomainUrl ?? DioHelper.baseUrl;
+    final finalBaseUrl = CacheHelper.get(key: 'subDomainUrl') ?? baseUrl;
 
-    // Create Dio instance
     _dio = Dio(
       BaseOptions(
         baseUrl: finalBaseUrl,
-        receiveDataWhenStatusError: true,
-        headers: headers,
-        connectTimeout: connectionTimeout ?? DioHelper.connectionTimeout,
-        receiveTimeout: receiveTimeout ?? DioHelper.receiveTimeout,
-        sendTimeout: sendTimeout ?? DioHelper.sendTimeout,
+        connectTimeout: connectTimeout,
+        receiveTimeout: receiveTimeout,
+        sendTimeout: sendTimeout,
+        headers: _buildHeaders(),
       ),
     );
 
-    // Add interceptors
-    final interceptors = <Interceptor>[];
+    _dio!.interceptors.clear();
 
-    if (enablePrettyLogger == true && kDebugMode) {
-      interceptors.add(
+    /// 🔥 Auto token injection (FIXED)
+    _dio!.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          final token = CacheHelper.get(key: 'accessToken');
+          if (token != null && token.toString().isNotEmpty) {
+            options.headers['Authorization'] = 'Bearer $token';
+          }
+          return handler.next(options);
+        },
+      ),
+    );
+
+    if (enablePrettyLogger && kDebugMode) {
+      _dio!.interceptors.add(
         PrettyDioLogger(
-          requestHeader: true,
           requestBody: true,
+          requestHeader: true,
           responseBody: true,
           responseHeader: false,
           error: true,
@@ -113,194 +418,141 @@ class DioHelper {
       );
     }
 
-    if (enableLogscope == true) {
-      interceptors.add(Logscope.dioInterceptor());
+    if (enableLogscope) {
+      _dio!.interceptors.add(Logscope.dioInterceptor());
     }
 
     if (customInterceptors != null) {
-      interceptors.addAll(customInterceptors);
+      _dio!.interceptors.addAll(customInterceptors);
     }
 
-    _dio!.interceptors.addAll(interceptors);
-
-    _isInitialized = true;
+    _initialized = true;
   }
 
-  // ============ Re-initialization ============
-  static Future<void> reInit() async {
-    if (!_isInitialized) {
-      await init(baseUrl: baseUrl);
-    } else {
-      final oldDio = _dio;
-      _dio = null;
-      await init(baseUrl: baseUrl);
-      if (oldDio != null) {
-        // Dispose old dio if needed
-        oldDio.close();
-      }
-    }
+  static Map<String, String> _buildHeaders() {
+    return Map<String, String>.from(defaultHeaders);
   }
 
-  // ============ Update Base URL ============
-  static Future<void> updateBaseUrl(String newBaseUrl) async {
-    baseUrl = newBaseUrl;
-    await CacheHelper.put(key: 'subDomainUrl', value: newBaseUrl);
-    await reInit();
-  }
-
-  // ============ API Methods ============
-  static Future<Either<Failure, Map<String, dynamic>>> getData({
-    required String endPoint,
-    String? refreshToken,
+  // ===================== CORE REQUEST =====================
+  @protected
+  static Future<Result<Map<String, dynamic>>> request({
+    required String method,
+    required String endpoint,
+    dynamic data,
     Map<String, dynamic>? query,
   }) async {
     try {
-      final response = await _dio!.get(
-        endPoint,
+      final response = await dio.request(
+        endpoint,
+        data: data,
         queryParameters: query,
+        options: Options(method: method),
       );
 
-      if (response.data['statusCode'] == 200) {
-        return Right(response.data);
-      } else {
-        final message = response.data['data']?['message'] ?? 'Unknown error';
-        if (kDebugMode) print(message);
-        return Left(ServerFailure(message));
-      }
+      return Success(_handleResponse(response));
     } on DioException catch (e) {
-      return Left(ServerFailure(handleError(e)));
+      return Error(ServerFailure(_handleError(e)));
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Error(ServerFailure(e.toString()));
     }
   }
 
-  static Future<Either<Failure, Map<String, dynamic>>> postData({
+  // ===================== CRUD METHODS =====================
+  static Future<Result<Map<String, dynamic>>> getData({
+    required String endPoint,
+    Map<String, dynamic>? query,
+  }) {
+    return request(
+      method: 'GET',
+      endpoint: endPoint,
+      query: query,
+    );
+  }
+
+  static Future<Result<Map<String, dynamic>>> postData({
     required String endPoint,
     dynamic data,
-  }) async {
-    try {
-      final response = await _dio!.post(
-        endPoint,
-        data: data,
-      );
-
-      if (response.data['statusCode'] == 200) {
-        return Right(response.data);
-      } else {
-        final message = response.data['data']?['message'] ?? 'Unknown error';
-        if (kDebugMode) print(message);
-        return Left(ServerFailure(message));
-      }
-    } on DioException catch (e) {
-      return Left(ServerFailure(handleError(e)));
-    } catch (e) {
-      return Left(ServerFailure(e.toString()));
-    }
+  }) {
+    return request(
+      method: 'POST',
+      endpoint: endPoint,
+      data: data,
+    );
   }
 
-  static Future<Either<Failure, Map<String, dynamic>>> putData({
+  static Future<Result<Map<String, dynamic>>> putData({
     required String endPoint,
     dynamic data,
-  }) async {
-    try {
-      final response = await _dio!.put(
-        endPoint,
-        data: data,
-      );
-
-      if (response.data['statusCode'] == 200) {
-        return Right(response.data);
-      } else {
-        final message = response.data['data']?['message'] ?? 'Unknown error';
-        if (kDebugMode) print(message);
-        return Left(ServerFailure(message));
-      }
-    } on DioException catch (e) {
-      return Left(ServerFailure(handleError(e)));
-    } catch (e) {
-      return Left(ServerFailure(e.toString()));
-    }
+  }) {
+    return request(
+      method: 'PUT',
+      endpoint: endPoint,
+      data: data,
+    );
   }
 
-  static Future<Either<Failure, Map<String, dynamic>>> patchData({
-    required String? endPoint,
-    required dynamic data,
-  }) async {
-    try {
-      final response = await _dio!.patch(
-        '$endPoint',
-        data: data,
-      );
-
-      if (response.data['statusCode'] == 200) {
-        return Right(response.data);
-      } else {
-        final message = response.data['data']?['message'] ?? 'Unknown error';
-        if (kDebugMode) print(message);
-        return Left(ServerFailure(message));
-      }
-    } on DioException catch (e) {
-      return Left(ServerFailure(handleError(e)));
-    } catch (e) {
-      return Left(ServerFailure(e.toString()));
-    }
-  }
-
-  static Future<Either<Failure, Map<String, dynamic>>> deleteData({
+  static Future<Result<Map<String, dynamic>>> patchData({
     required String endPoint,
     dynamic data,
-  }) async {
-    try {
-      final response = await _dio!.delete(
-        endPoint,
-        data: data,
-      );
-
-      if (response.data['statusCode'] == 200) {
-        return Right(response.data);
-      } else {
-        final message = response.data['data']?['message'] ?? 'Unknown error';
-        if (kDebugMode) print(message);
-        return Left(ServerFailure(message));
-      }
-    } on DioException catch (e) {
-      return Left(ServerFailure(handleError(e)));
-    } catch (e) {
-      return Left(ServerFailure(e.toString()));
-    }
+  }) {
+    return request(
+      method: 'PATCH',
+      endpoint: endPoint,
+      data: data,
+    );
   }
 
-  // ============ Error Handling ============
-  static String handleError(DioException error) {
+  static Future<Result<Map<String, dynamic>>> deleteData({
+    required String endPoint,
+    dynamic data,
+  }) {
+    return request(
+      method: 'DELETE',
+      endpoint: endPoint,
+      data: data,
+    );
+  }
+
+  // ===================== RESPONSE =====================
+
+  static Map<String, dynamic> _handleResponse(Response response) {
+    final data = response.data;
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return data;
+    }
+
+    throw Exception(data?['message'] ?? 'Unknown error');
+  }
+
+  // ===================== ERROR =====================
+
+  static String _handleError(DioException error) {
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
-        if (kDebugMode) print('Timeout error: ${error.message}');
-        return error.message ?? 'Connection timeout';
-
-      case DioExceptionType.badResponse:
-        final message = error.response?.data['data']?['message'] ??
-            error.response?.data['message'] ??
-            'Bad response from server';
-        if (kDebugMode) {
-          print('Bad response: ${error.response?.statusCode} - $message');
-        }
-        return message;
-
-      case DioExceptionType.cancel:
-        if (kDebugMode) print('Request cancelled');
-        return 'Request cancelled';
+        return 'Connection timeout';
 
       case DioExceptionType.connectionError:
-        if (kDebugMode) print('Connection error: ${error.message}');
         return 'No internet connection';
 
+      case DioExceptionType.cancel:
+        return 'Request cancelled';
+
+      case DioExceptionType.badResponse:
+        final data = error.response?.data;
+        if (data is Map) {
+          return data['message'] ?? data['data']?['message'] ?? 'Server error';
+        }
+        return 'Server error';
+
       default:
-        if (kDebugMode) print('Error: ${error.message}');
-        return error.message ?? 'Unknown error occurred';
+        return error.message ?? 'Unknown error';
     }
   }
+
+  // ===================== TOKEN =====================
 
   static Future<void> updateToken(String? token) async {
     if (token != null) {
@@ -308,23 +560,34 @@ class DioHelper {
     } else {
       await CacheHelper.remove(key: 'accessToken');
     }
-    // Update headers for next requests
-    _dio?.options.headers['Authorization'] =
-        token != null ? 'Bearer $token' : null;
   }
 
-// وأضف دالة جديدة:
-  static Future<void> syncWithTwafokConfig() async {
+  static Future<void> syncWithConfig() async {
     final token = TwafokConfig.getToken();
     if (token != null) {
       await updateToken(token);
     }
   }
 
-  // ============ Dispose ============
+  // ===================== BASE URL =====================
+
+  static Future<void> updateBaseUrl(String url) async {
+    baseUrl = url;
+    await CacheHelper.put(key: 'subDomainUrl', value: url);
+    await reInit();
+  }
+
+  static Future<void> reInit() async {
+    _dio?.close();
+    _dio = null;
+    _initialized = false;
+
+    await init(baseUrl: baseUrl);
+  }
+
   static void dispose() {
     _dio?.close();
     _dio = null;
-    _isInitialized = false;
+    _initialized = false;
   }
 }

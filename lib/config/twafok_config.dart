@@ -1,10 +1,9 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 
-import '../core/constants/app_theme.dart';
 import '../core/constants/colors.dart';
-import '../core/error/failure.dart';
 import '../core/network/local/cache_helper.dart';
+import '../core/network/remote/firebase_notification_helper.dart';
+import '../core/notifications/local_notification_helper.dart';
 import 'dio_config.dart';
 
 class TwafokConfig {
@@ -35,9 +34,8 @@ class TwafokConfig {
 
   // ============ Cache Keys ============
   static const String _themeModeKey = 'twafok_theme_mode';
-  // static const String _isDarkKey = 'twafok_is_dark';
+
   static const String _tokenKey = 'twafok_token';
-  static const String _userDataKey = 'twafok_user_data';
   static const String _subDomainUrlKey = 'subDomainUrl'; // key للـ sub domain
 
   // ============ Initialization ============
@@ -78,6 +76,9 @@ class TwafokConfig {
     bool? enablePrettyLogger,
     bool? enableLogscope,
     List<Interceptor>? customInterceptors,
+
+    // Notifications
+    bool? enableNotifications,
   }) async {
     if (_isInitialized) return;
 
@@ -146,6 +147,9 @@ class TwafokConfig {
       defaultHeaders: defaultHeaders ?? TwafokConfig.defaultHeaders,
       customInterceptors: customInterceptors,
     );
+    if (enableNotifications ?? false) {
+      await initializeNotifications();
+    }
 
     _isInitialized = true;
   }
@@ -217,91 +221,9 @@ class TwafokConfig {
     await DioHelper.updateBaseUrl(newBaseUrl);
   }
 
-  // ============ User Data Management ============
-  static Future<void> setUserData(Map<String, dynamic>? userData) async {
-    if (userData != null) {
-      // Convert Map to JSON string
-      final jsonString = userData.toString(); // TODO: Use proper JSON encoding
-      await CacheHelper.put(key: _userDataKey, value: jsonString);
-    } else {
-      await CacheHelper.remove(key: _userDataKey);
-    }
-  }
-
-  static Map<String, dynamic>? getUserData() {
-    final data = CacheHelper.get(key: _userDataKey);
-    if (data != null) {
-      // TODO: Parse JSON properly
-      return {};
-    }
-    return null;
-  }
-
-  // ============ Logout / Clear All ============
-  static Future<void> clearAll() async {
-    await CacheHelper.clearData();
-
-    // Reset to defaults
-    currentThemeMode = ThemeMode.system;
-    await setThemeMode(ThemeMode.system);
-
-    // Clear Dio
-    DioHelper.dispose();
-  }
-
-  // ============ Getters ============
-  static bool get isInitialized => _isInitialized;
-
-  static ThemeData get currentTheme {
-    return isDarkMode() ? AppTheme.darkMode() : AppTheme.lightMode();
-  }
-
-  // ============ API Headers ============
-  static Map<String, String> getHeaders() {
-    final headers = Map<String, String>.from(defaultHeaders);
-    final token = getToken();
-    if (token != null && token.isNotEmpty) {
-      headers['Authorization'] = 'Bearer $token';
-    }
-    return headers;
-  }
-
-  // ============ Dio Instance ============
-  static Dio get dio => DioHelper.dio;
-
-  // ============ API Methods (Shortcuts) ============
-  static Future<Either<Failure, Map<String, dynamic>>> get({
-    required String endPoint,
-    Map<String, dynamic>? query,
-  }) {
-    return DioHelper.getData(endPoint: endPoint, query: query);
-  }
-
-  static Future<Either<Failure, Map<String, dynamic>>> post({
-    required String endPoint,
-    dynamic data,
-  }) {
-    return DioHelper.postData(endPoint: endPoint, data: data);
-  }
-
-  static Future<Either<Failure, Map<String, dynamic>>> put({
-    required String endPoint,
-    dynamic data,
-  }) {
-    return DioHelper.putData(endPoint: endPoint, data: data);
-  }
-
-  static Future<Either<Failure, Map<String, dynamic>>> patch({
-    required String endPoint,
-    required dynamic data,
-  }) {
-    return DioHelper.patchData(endPoint: endPoint, data: data);
-  }
-
-  static Future<Either<Failure, Map<String, dynamic>>> delete({
-    required String endPoint,
-    dynamic data,
-  }) {
-    return DioHelper.deleteData(endPoint: endPoint, data: data);
+  // ============ Notifications ============
+  static Future<void> initializeNotifications() async {
+    await FirebaseNotificationHelper.init();
+    await LocalNotificationHelper.init();
   }
 }
