@@ -463,7 +463,7 @@ class DioHelper {
   // ===================== CRUD METHODS =====================
   static Future<Result<T>> getData<T>({
     required String endPoint,
-    required T Function(dynamic) fromJson,
+    required T Function(Map<String, dynamic>) fromJson,
     Map<String, dynamic>? query,
   }) {
     return request<T>(
