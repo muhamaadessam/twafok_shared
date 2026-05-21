@@ -5,20 +5,12 @@ import 'hex_color.dart';
 class AppColors {
   AppColors._();
 
-  // ===== Static Fixed Colors =====
-
-  static Color defaultMainColor = HexColor('#1E294D');
-  static Color defaultSecondaryColor = HexColor('#1E294D');
-  static Color defaultSuccessColor = HexColor('#1E294D');
-
   // ===== Mutable Colors =====
 
   static Color mainColor = HexColor('#1E294D');
   static Color secondaryColor = HexColor('#1E294D');
   static Color successColor = HexColor('#1E294D');
-
   static Color errorColor = Colors.red;
-
   static Color secondTextColor = HexColor('#4A5E6D');
   static Color borderColor = Colors.black.withValues(alpha: .25);
 
@@ -40,10 +32,10 @@ class AppColors {
       _isDarkMode(context) ? HexColor('#191D23') : HexColor('#FFFFFF');
 
   static Color textColor(BuildContext context) =>
-      _isDarkMode(context) ? HexColor('#FFFFFF') : HexColor('#000000');
+      _isDarkMode(context) ? HexColor('#000000') : HexColor('#FFFFFF');
 
   static Color reverseTextColor(BuildContext context) =>
-      _isDarkMode(context) ? HexColor('#000000') : HexColor('#FFFFFF');
+      _isDarkMode(context) ? HexColor('#FFFFFF') : HexColor('#000000');
 
   // ===== Helpers =====
 
