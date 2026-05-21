@@ -31,16 +31,14 @@ class CacheHelper {
   static Future<bool> clearData() async {
     return await sharedPreferences.clear();
   }
-
 }
 
 extension LocalStorage on CacheHelper {
-  static Future<String> getFirebaseToken() async {
-    return await CacheHelper.get(key: 'firebase_token') ?? '';
+  static String getFirebaseToken() {
+    return CacheHelper.get(key: 'firebase_token') ?? '';
   }
 
-  static Future<bool> getMode() async {
-    return await CacheHelper.get(key: 'isDark');
+  static bool getMode() {
+    return CacheHelper.get(key: 'isDark') ?? false;
   }
-
 }
