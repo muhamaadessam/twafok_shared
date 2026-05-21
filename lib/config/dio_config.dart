@@ -595,22 +595,33 @@ class DioHelper {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
+        debugPrint('API Error ==> Connection Timeout');
+
         return 'Connection timeout';
 
       case DioExceptionType.connectionError:
+        debugPrint('API Error ==> No Internet Connection');
+
         return 'No internet connection';
 
       case DioExceptionType.cancel:
+        debugPrint('API Error ==> Request Cancelled');
+
         return 'Request cancelled';
 
       case DioExceptionType.badResponse:
+        debugPrint('API Error ==> Bad Response');
         final data = error.response?.data;
         if (data is Map) {
+          debugPrint(
+              'API Error ==> ${data['message'] ?? data['data']?['message'] ?? 'Server error'}');
           return data['message'] ?? data['data']?['message'] ?? 'Server error';
         }
+        debugPrint('API Error ==> Server error');
         return 'Server error';
 
       default:
+        debugPrint('API Error ==> ${error.message ?? 'Unknown error'}');
         return error.message ?? 'Unknown error';
     }
   }
