@@ -25,7 +25,7 @@ class TextTitle extends StatelessWidget {
       text,
       style: TextStyle(
         fontWeight: fontWeight ?? FontWeight.bold,
-        fontSize: (fontSize ?? 24).spMax,
+        fontSize: (fontSize ?? 24).sp,
         color: color,
         fontFamily: 'Cairo',
       ),
@@ -59,7 +59,7 @@ class TextBody14 extends StatelessWidget {
       text,
       style: TextStyle(
         fontWeight: fontWeight ?? FontWeight.normal,
-        fontSize: (fontSize ?? 18).spMax,
+        fontSize: (fontSize ?? 18).sp,
         color: color,
         fontFamily: 'Cairo',
       ),
@@ -95,7 +95,7 @@ class TextBody12 extends StatelessWidget {
       text,
       style: TextStyle(
         fontWeight: fontWeight ?? FontWeight.normal,
-        fontSize: (fontSize ?? 14).spMax,
+        fontSize: (fontSize ?? 14).sp,
         color: color,
         fontFamily: 'Cairo',
       ),
@@ -130,7 +130,7 @@ class TextDescription extends StatelessWidget {
       text,
       style: TextStyle(
         fontWeight: fontWeight ?? FontWeight.normal,
-        fontSize: (fontSize ?? 12).spMax,
+        fontSize: (fontSize ?? 12).sp,
         color: color,
         fontFamily: 'Cairo',
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:twafok_shared/core/core.dart';
 
 void errorGetSnackBar(context, {required String title, String? message}) {
@@ -16,12 +17,10 @@ void errorGetSnackBar(context, {required String title, String? message}) {
             children: [
               Icon(
                 Icons.report_rounded,
-                size: 40,
+                size: 24.r,
                 color: Colors.white,
               ),
-              const SizedBox(
-                width: 8,
-              ),
+              8.horizontalSpace,
               Expanded(
                 child: TextTitle(
                   title,
