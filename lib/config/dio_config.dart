@@ -438,7 +438,7 @@ class DioHelper {
   static Future<Result<T>> request<T>({
     required String method,
     required String endpoint,
-    required T Function(dynamic) fromJson,
+    required T Function(Map<String, dynamic>) fromJson,
     dynamic data,
     Map<String, dynamic>? query,
   }) async {
@@ -476,7 +476,7 @@ class DioHelper {
 
   static Future<Result<T>> postData<T>({
     required String endPoint,
-    required T Function(dynamic) fromJson,
+    required T Function(Map<String, dynamic>) fromJson,
     dynamic data,
   }) {
     return request<T>(
@@ -489,7 +489,7 @@ class DioHelper {
 
   static Future<Result<T>> putData<T>({
     required String endPoint,
-    required T Function(dynamic) fromJson,
+    required T Function(Map<String, dynamic>) fromJson,
     dynamic data,
   }) {
     return request<T>(
@@ -502,7 +502,7 @@ class DioHelper {
 
   static Future<Result<T>> patchData<T>({
     required String endPoint,
-    required T Function(dynamic) fromJson,
+    required T Function(Map<String, dynamic>) fromJson,
     dynamic data,
   }) {
     return request<T>(
@@ -515,7 +515,7 @@ class DioHelper {
 
   static Future<Result<T>> deleteData<T>({
     required String endPoint,
-    required T Function(dynamic) fromJson,
+    required T Function(Map<String, dynamic>) fromJson,
     dynamic data,
   }) {
     return request<T>(
@@ -559,7 +559,7 @@ class DioHelper {
   // }
   static T _handleResponse<T>(
     Response response,
-    T Function(dynamic) fromJson,
+    T Function(Map<String, dynamic>) fromJson,
   ) {
     final data = response.data;
 
