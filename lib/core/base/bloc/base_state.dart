@@ -10,6 +10,7 @@ enum PageState {
   empty,
   successWithDialog,
   errorWithSnackBar,
+  error,
 }
 
 class BaseState extends Equatable {

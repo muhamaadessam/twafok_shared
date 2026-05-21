@@ -12,7 +12,7 @@ class LocalNotificationHelper {
     importance: Importance.max,
   );
 
-  static Future<void> init() async {
+  static Future<void> init({ String? icon}) async {
     const androidSettings =
         AndroidInitializationSettings('@drawable/ic_notification');
 

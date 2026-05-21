@@ -79,6 +79,7 @@ class TwafokConfig {
 
     // Notifications
     bool? enableNotifications,
+    String? notificationIcon,
   }) async {
     if (_isInitialized) return;
 
@@ -148,7 +149,9 @@ class TwafokConfig {
       customInterceptors: customInterceptors,
     );
     if (enableNotifications ?? false) {
-      await initializeNotifications();
+      await initializeNotifications(
+        icon: notificationIcon,
+      );
     }
 
     _isInitialized = true;
@@ -222,8 +225,8 @@ class TwafokConfig {
   }
 
   // ============ Notifications ============
-  static Future<void> initializeNotifications() async {
+  static Future<void> initializeNotifications({String? icon}) async {
     await FirebaseNotificationHelper.init();
-    await LocalNotificationHelper.init();
+    await LocalNotificationHelper.init(icon: icon);
   }
 }

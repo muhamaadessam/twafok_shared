@@ -106,6 +106,7 @@ abstract class BaseView<T extends BaseCubit<S>, S extends BaseState>
         break;
 
       case PageState.errorWithSnackBar:
+      case PageState.error:
         if (ModalRoute.of(context)?.isCurrent == true) {
           onErrorSnackBar(context, title: state.failure?.message ?? '');
         }
