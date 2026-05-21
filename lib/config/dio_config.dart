@@ -456,6 +456,7 @@ class DioHelper {
     } on DioException catch (e) {
       return Error(ServerFailure(_handleError(e)));
     } catch (e) {
+      debugPrint('API Error ==> ${e.toString()}');
       return Error(ServerFailure(e.toString()));
     }
   }
