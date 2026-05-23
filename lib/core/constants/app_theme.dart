@@ -7,6 +7,7 @@ class AppTheme {
     AppBarTheme? appBarTheme,
     FloatingActionButtonThemeData? fabTheme,
     IconThemeData? iconTheme,
+    BottomNavigationBarThemeData? bottomNavigationBarTheme,
   }) {
     final base = ThemeData(
       useMaterial3: false,
@@ -19,6 +20,11 @@ class AppTheme {
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: AppColors.darkBackgroundColor,
+      ),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: AppColors.darkScaffoldBackgroundColor,
+        selectedItemColor: AppColors.mainColor,
+        unselectedItemColor: AppColors.secondTextColor,
       ),
       iconTheme: IconThemeData(color: AppColors.darkIconColor),
       textTheme: TextTheme(
@@ -50,6 +56,7 @@ class AppTheme {
     AppBarTheme? appBarTheme,
     FloatingActionButtonThemeData? fabTheme,
     IconThemeData? iconTheme,
+    BottomNavigationBarThemeData? bottomNavigationBarTheme,
   }) {
     final base = ThemeData(
       useMaterial3: false,
@@ -63,6 +70,11 @@ class AppTheme {
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: AppColors.lightBackgroundColor,
+      ),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: AppColors.lightScaffoldBackgroundColor,
+        selectedItemColor: AppColors.mainColor,
+        unselectedItemColor: AppColors.secondTextColor,
       ),
       iconTheme: IconThemeData(color: AppColors.lightIconColor),
       textTheme: TextTheme(
@@ -87,6 +99,8 @@ class AppTheme {
       appBarTheme: appBarTheme ?? base.appBarTheme,
       floatingActionButtonTheme: fabTheme ?? base.floatingActionButtonTheme,
       iconTheme: iconTheme ?? base.iconTheme,
+      bottomNavigationBarTheme:
+          bottomNavigationBarTheme ?? base.bottomNavigationBarTheme,
     );
   }
 }
