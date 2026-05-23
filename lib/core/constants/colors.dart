@@ -10,32 +10,42 @@ class AppColors {
   static Color mainColor = HexColor('#1E294D');
   static Color secondaryColor = HexColor('#1E294D');
   static Color successColor = HexColor('#1E294D');
-  static Color errorColor = Colors.red;
+  static Color errorColor = HexColor('#E74C3C');
   static Color secondTextColor = HexColor('#4A5E6D');
-  static Color borderColor = Colors.black.withValues(alpha: .25);
+  static Color borderColor = HexColor('#F1F1F1');
+  static Color white = Colors.white;
+  static Color black = Colors.black;
+  static Color transparent = Colors.transparent;
+  static Color darkScaffoldBackgroundColor = HexColor('#272A2F');
+  static Color lightScaffoldBackgroundColor = Colors.white;
+  static Color darkBackgroundColor = HexColor('#191D23');
+  static Color lightBackgroundColor = HexColor('#F1F1F1');
+  static Color lightIconColor = HexColor('#4A5E6D');
+  static Color darkIconColor = HexColor('#4A5E6D');
 
   // ===== Theme Based Colors =====
 
-  static Color homeBackgroundColor(BuildContext context) =>
-      _isDarkMode(context) ? HexColor('#272A2F') : HexColor('#FFFFFF');
+  static Color homeBackgroundColor(BuildContext context) => _isDarkMode(context)
+      ? darkScaffoldBackgroundColor
+      : lightScaffoldBackgroundColor;
 
   static Color customBackgroundColor(BuildContext context) =>
-      _isDarkMode(context) ? HexColor('#272A2F') : HexColor('#F2F4F8');
+      _isDarkMode(context) ? darkScaffoldBackgroundColor : lightBackgroundColor;
 
   static Color deepBackgroundColor(BuildContext context) =>
-      _isDarkMode(context) ? HexColor('#191D23') : HexColor('#F1F1F1');
+      _isDarkMode(context) ? darkBackgroundColor : lightBackgroundColor;
 
   static Color appBarColor(BuildContext context) =>
-      _isDarkMode(context) ? HexColor('#191D23') : HexColor('#FFFFFF');
+      _isDarkMode(context) ? darkBackgroundColor : white;
 
   static Color containerBackgroundColor(BuildContext context) =>
-      _isDarkMode(context) ? HexColor('#191D23') : HexColor('#FFFFFF');
+      _isDarkMode(context) ? darkBackgroundColor : white;
 
   static Color textColor(BuildContext context) =>
-      _isDarkMode(context) ? HexColor('#000000') : HexColor('#FFFFFF');
+      _isDarkMode(context) ? white : white;
 
   static Color reverseTextColor(BuildContext context) =>
-      _isDarkMode(context) ? HexColor('#FFFFFF') : HexColor('#000000');
+      _isDarkMode(context) ? white : black;
 
   // ===== Helpers =====
 
@@ -51,6 +61,12 @@ class AppColors {
     Color? errorColor,
     Color? secondTextColor,
     Color? borderColor,
+    Color? lightScaffoldBackgroundColor,
+    Color? darkScaffoldBackgroundColor,
+    Color? lightIconColor,
+    Color? darkIconColor,
+    Color? lightBackgroundColor,
+    Color? darkBackgroundColor,
   }) {
     if (mainColor != null) {
       AppColors.mainColor = mainColor;
@@ -74,6 +90,30 @@ class AppColors {
 
     if (successColor != null) {
       AppColors.successColor = successColor;
+    }
+
+    if (lightScaffoldBackgroundColor != null) {
+      AppColors.lightScaffoldBackgroundColor = lightScaffoldBackgroundColor;
+    }
+
+    if (darkScaffoldBackgroundColor != null) {
+      AppColors.darkScaffoldBackgroundColor = darkScaffoldBackgroundColor;
+    }
+
+    if (lightIconColor != null) {
+      AppColors.lightIconColor = lightIconColor;
+    }
+
+    if (darkIconColor != null) {
+      AppColors.darkIconColor = darkIconColor;
+    }
+
+    if (lightBackgroundColor != null) {
+      AppColors.lightBackgroundColor = lightBackgroundColor;
+    }
+
+    if (darkBackgroundColor != null) {
+      AppColors.darkBackgroundColor = darkBackgroundColor;
     }
   }
 }

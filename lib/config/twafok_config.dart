@@ -67,6 +67,12 @@ class TwafokConfig {
     Color? successColor,
     Color? secondTextColor,
     Color? borderColor,
+    Color? lightScaffoldBackgroundColor,
+    Color? darkScaffoldBackgroundColor,
+    Color? lightIconColor,
+    Color? darkIconColor,
+    Color? lightBackgroundColor,
+    Color? darkBackgroundColor,
 
     // Text
     String? fontFamily,
@@ -132,6 +138,12 @@ class TwafokConfig {
       secondTextColor: secondTextColor,
       borderColor: borderColor,
       successColor: successColor,
+      lightScaffoldBackgroundColor: lightScaffoldBackgroundColor,
+      darkScaffoldBackgroundColor: darkScaffoldBackgroundColor,
+      lightIconColor: lightIconColor,
+      darkIconColor: darkIconColor,
+      lightBackgroundColor: lightBackgroundColor,
+      darkBackgroundColor: darkBackgroundColor,
     );
 
     // Get saved sub domain URL if exists

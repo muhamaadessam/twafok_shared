@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twafok_shared/twafok_shared.dart';
 
-
 part 'app_theme_state.dart';
 
 class AppThemeCubit extends Cubit<AppThemeState> {
   AppThemeCubit(bool isDark)
       : super(
-    AppThemeState(
-      isDark: isDark,
-      theme: isDark ? AppTheme.darkMode() : AppTheme.lightMode(),
-    ),
-  );
+          AppThemeState(
+            isDark: isDark,
+            theme: isDark ? AppTheme.darkMode() : AppTheme.lightMode(),
+          ),
+        );
 
   static AppThemeCubit get(BuildContext context) =>
       context.read<AppThemeCubit>();

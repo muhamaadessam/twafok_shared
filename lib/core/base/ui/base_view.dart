@@ -6,9 +6,15 @@ import '../../core.dart';
 
 abstract class BaseView<T extends BaseCubit<S>, S extends BaseState>
     extends StatelessWidget {
-  BaseView({super.key, this.isSheetView = false, this.backgroundColors});
+  BaseView({
+    super.key,
+    this.isSheetView = false,
+    this.backgroundColors,
+    this.ignorLoding = false,
+  });
 
   final bool isSheetView;
+  final bool ignorLoding;
   final List<Color>? backgroundColors;
 
   Widget body(BuildContext context, S state);
@@ -32,21 +38,17 @@ abstract class BaseView<T extends BaseCubit<S>, S extends BaseState>
           Widget mainContent = isSheetView
               ? body(context, state)
               : CustomScaffold(
-                  // backgroundColor: Colors.transparent,
                   appBar: appBar(context),
                   body: body(context, state),
                 );
           return Stack(
             children: [
-              //background
-              // BaseBackgroundWidget(backgroundColors: backgroundColors),
-              //main content
               mainContent,
               // Loading overlay
               BlocSelector<T, S, bool>(
                 selector: (state) => state.pageState == PageState.loading,
                 builder: (context, screenLoading) {
-                  return screenLoading
+                  return screenLoading && !ignorLoding
                       ? const Center(child: LoadingView())
                       : const SizedBox.shrink();
                 },
