@@ -8,6 +8,7 @@ class AppTheme {
     FloatingActionButtonThemeData? fabTheme,
     IconThemeData? iconTheme,
     BottomNavigationBarThemeData? bottomNavigationBarTheme,
+    BottomAppBarThemeData? bottomAppBarTheme,
   }) {
     final base = ThemeData(
       useMaterial3: false,
@@ -25,6 +26,10 @@ class AppTheme {
         backgroundColor: AppColors.darkScaffoldBackgroundColor,
         selectedItemColor: AppColors.mainColor,
         unselectedItemColor: AppColors.secondTextColor,
+      ),
+      bottomAppBarTheme: BottomAppBarThemeData(
+        color: AppColors.darkScaffoldBackgroundColor,
+        elevation: 0,
       ),
       iconTheme: IconThemeData(color: AppColors.darkIconColor),
       textTheme: TextTheme(
@@ -49,6 +54,9 @@ class AppTheme {
       appBarTheme: appBarTheme ?? base.appBarTheme,
       floatingActionButtonTheme: fabTheme ?? base.floatingActionButtonTheme,
       iconTheme: iconTheme ?? base.iconTheme,
+      bottomNavigationBarTheme:
+          bottomNavigationBarTheme ?? base.bottomNavigationBarTheme,
+      bottomAppBarTheme: bottomAppBarTheme ?? base.bottomAppBarTheme,
     );
   }
 
@@ -57,6 +65,7 @@ class AppTheme {
     FloatingActionButtonThemeData? fabTheme,
     IconThemeData? iconTheme,
     BottomNavigationBarThemeData? bottomNavigationBarTheme,
+    BottomAppBarThemeData? bottomAppBarTheme,
   }) {
     final base = ThemeData(
       useMaterial3: false,
@@ -75,6 +84,10 @@ class AppTheme {
         backgroundColor: AppColors.lightScaffoldBackgroundColor,
         selectedItemColor: AppColors.mainColor,
         unselectedItemColor: AppColors.secondTextColor,
+      ),
+      bottomAppBarTheme: BottomAppBarThemeData(
+        color: AppColors.lightScaffoldBackgroundColor,
+        elevation: 0,
       ),
       iconTheme: IconThemeData(color: AppColors.lightIconColor),
       textTheme: TextTheme(
@@ -101,6 +114,7 @@ class AppTheme {
       iconTheme: iconTheme ?? base.iconTheme,
       bottomNavigationBarTheme:
           bottomNavigationBarTheme ?? base.bottomNavigationBarTheme,
+      bottomAppBarTheme: bottomAppBarTheme ?? base.bottomAppBarTheme,
     );
   }
 }
