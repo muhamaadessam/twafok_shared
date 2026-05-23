@@ -47,6 +47,9 @@ class AppColors {
   static Color reverseTextColor(BuildContext context) =>
       _isDarkMode(context) ? white : black;
 
+  static Color iconColor(BuildContext context) =>
+      _isDarkMode(context) ? darkIconColor : lightIconColor;
+
   // ===== Helpers =====
 
   static bool _isDarkMode(BuildContext context) =>
