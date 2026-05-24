@@ -8,7 +8,10 @@ class ForcePauseScreen extends StatelessWidget {
   final String? assetImage;
   final String? title;
   final String? description;
+  final String? infoText;
   final VoidCallback? onTap;
+  final Color? primaryColor;
+  final Color? secondaryColor;
 
   const ForcePauseScreen({
     super.key,
@@ -16,7 +19,10 @@ class ForcePauseScreen extends StatelessWidget {
     this.assetImage,
     this.title,
     this.description,
+    this.infoText,
     this.onTap,
+    this.primaryColor,
+    this.secondaryColor,
   });
 
   @override
@@ -31,21 +37,6 @@ class ForcePauseScreen extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(width: double.infinity),
-              Align(
-                alignment: AlignmentDirectional.centerEnd,
-                child: Container(
-                  padding: EdgeInsets.all(10.r),
-                  decoration: BoxDecoration(
-                    color: Colors.orange.withValues(alpha: 0.12),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    Icons.pause_circle_outline_rounded,
-                    color: Colors.orange,
-                    size: 24.r,
-                  ),
-                ),
-              ),
               const Spacer(),
               Container(
                 padding: EdgeInsets.all(22.r),
@@ -73,13 +64,14 @@ class ForcePauseScreen extends StatelessWidget {
                             width: 120.r,
                             height: 120.r,
                             decoration: BoxDecoration(
-                              color: Colors.orange.withValues(alpha: 0.12),
+                              color: (secondaryColor ?? context.mainColor)
+                                  .withValues(alpha: 0.12),
                               shape: BoxShape.circle,
                             ),
                             child: Icon(
                               Icons.warning_amber_rounded,
                               size: 60.r,
-                              color: Colors.orange,
+                              color: secondaryColor ?? context.mainColor,
                             ),
                           ),
               ),
@@ -102,40 +94,45 @@ class ForcePauseScreen extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(18.r),
                 decoration: BoxDecoration(
-                  color: Colors.orange.withValues(alpha:0.08),
+                  color: (secondaryColor ?? context.mainColor)
+                      .withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(18.r),
                 ),
                 child: Row(
                   children: [
                     Icon(
                       Icons.info_outline_rounded,
-                      color: Colors.orange,
+                      color: secondaryColor ?? context.mainColor,
                       size: 22.r,
                     ),
                     SizedBox(width: 12.w),
                     Expanded(
                       child: TextBody14(
-                        'We are working to improve your experience and will be back shortly.',
+                        infoText ??
+                            'We are working to improve your experience and will be back shortly.',
                       ),
                     ),
                   ],
                 ),
               ),
               const Spacer(),
-              CustomButton(
-                borderRadius: 18.r,
-                onPressed: onTap ?? () => SystemNavigator.pop(),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.exit_to_app_rounded,
-                      size: 22.r,
-                      color: Colors.white,
-                    ),
-                    SizedBox(width: 10.w),
-                    const TextTitle('Close App'),
-                  ],
+              SizedBox(
+                height: 56.h,
+                child: CustomButton(
+                  borderRadius: 18.r,
+                  onPressed: onTap ?? () => SystemNavigator.pop(),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.exit_to_app_rounded,
+                        size: 22.r,
+                        color: Colors.white,
+                      ),
+                      SizedBox(width: 10.w),
+                      const TextTitle('Close App'),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: 16.h),
