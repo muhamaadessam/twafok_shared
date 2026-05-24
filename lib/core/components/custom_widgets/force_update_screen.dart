@@ -46,9 +46,10 @@ class ForceUpdateScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
+
             children: [
+              SizedBox(width: double.infinity),
               const Spacer(),
-              /// Image
               if (assetImage != null)
                 Image.asset(
                   assetImage!,
