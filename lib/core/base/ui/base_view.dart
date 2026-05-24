@@ -10,11 +10,11 @@ abstract class BaseView<T extends BaseCubit<S>, S extends BaseState>
     super.key,
     this.isSheetView = false,
     this.backgroundColors,
-    this.ignorLoding = false,
+    this.ignorLoading = false,
   });
 
   final bool isSheetView;
-  final bool ignorLoding;
+  final bool ignorLoading;
   final List<Color>? backgroundColors;
 
   Widget body(BuildContext context, S state);
@@ -48,9 +48,22 @@ abstract class BaseView<T extends BaseCubit<S>, S extends BaseState>
               BlocSelector<T, S, bool>(
                 selector: (state) => state.pageState == PageState.loading,
                 builder: (context, screenLoading) {
-                  return screenLoading && !ignorLoding
+                  return screenLoading && !ignorLoading
                       ? const Center(child: LoadingView())
                       : const SizedBox.shrink();
+                },
+              ),
+              BlocBuilder<T, S>(
+                buildWhen: (previous, current) =>
+                    previous.pageState != current.pageState,
+                builder: (context, state) {
+                  if (state.pageState != PageState.errorWithScreen) {
+                    return const SizedBox.shrink();
+                  }
+
+                  return ErrorScreen(
+                    description: state.failure?.message ?? '',
+                  );
                 },
               ),
             ],
@@ -121,6 +134,7 @@ abstract class BaseView<T extends BaseCubit<S>, S extends BaseState>
       case PageState.loading:
       case PageState.failure:
       case PageState.shimmerLoading:
+      case PageState.errorWithScreen:
       case PageState.empty:
       case PageState.fetchComplete:
         break;
