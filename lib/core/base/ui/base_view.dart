@@ -45,25 +45,17 @@ abstract class BaseView<T extends BaseCubit<S>, S extends BaseState>
             children: [
               mainContent,
               // Loading overlay
+              if (state.pageState == PageState.errorWithScreen)
+                ErrorScreen(
+                  description: state.failure?.message ?? '',
+                )
+              else
               BlocSelector<T, S, bool>(
                 selector: (state) => state.pageState == PageState.loading,
                 builder: (context, screenLoading) {
                   return screenLoading && !ignorLoading
                       ? const Center(child: LoadingView())
                       : const SizedBox.shrink();
-                },
-              ),
-              BlocBuilder<T, S>(
-                buildWhen: (previous, current) =>
-                    previous.pageState != current.pageState,
-                builder: (context, state) {
-                  if (state.pageState != PageState.errorWithScreen) {
-                    return const SizedBox.shrink();
-                  }
-
-                  return ErrorScreen(
-                    description: state.failure?.message ?? '',
-                  );
                 },
               ),
             ],
