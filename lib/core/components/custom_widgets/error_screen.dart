@@ -28,6 +28,10 @@ class ErrorScreen extends StatelessWidget {
     final c = color ?? context.errorColor;
 
     return CustomScaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(

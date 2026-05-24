@@ -45,11 +45,6 @@ abstract class BaseView<T extends BaseCubit<S>, S extends BaseState>
             children: [
               mainContent,
               // Loading overlay
-              if (state.pageState == PageState.errorWithScreen)
-                ErrorScreen(
-                  description: state.failure?.message ?? '',
-                )
-              else
               BlocSelector<T, S, bool>(
                 selector: (state) => state.pageState == PageState.loading,
                 builder: (context, screenLoading) {
@@ -123,10 +118,14 @@ abstract class BaseView<T extends BaseCubit<S>, S extends BaseState>
       case PageState.init:
         onInitState(context, state);
         break;
+      case PageState.errorWithScreen:
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) =>
+                ErrorScreen(description: state.failure?.message ?? '')));
+        break;
       case PageState.loading:
       case PageState.failure:
       case PageState.shimmerLoading:
-      case PageState.errorWithScreen:
       case PageState.empty:
       case PageState.fetchComplete:
         break;
