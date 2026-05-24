@@ -9,6 +9,7 @@ class ForcePauseScreen extends StatelessWidget {
   final String? title;
   final String? description;
   final String? infoText;
+  final String? textButton;
   final VoidCallback? onTap;
   final Color? primaryColor;
   final Color? secondaryColor;
@@ -20,6 +21,7 @@ class ForcePauseScreen extends StatelessWidget {
     this.title,
     this.description,
     this.infoText,
+    this.textButton,
     this.onTap,
     this.primaryColor,
     this.secondaryColor,
@@ -130,7 +132,7 @@ class ForcePauseScreen extends StatelessWidget {
                         color: Colors.white,
                       ),
                       SizedBox(width: 10.w),
-                      const TextTitle('Close App'),
+                       TextTitle(textButton ?? 'Close App'),
                     ],
                   ),
                 ),

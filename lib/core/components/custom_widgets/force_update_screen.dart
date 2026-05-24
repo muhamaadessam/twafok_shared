@@ -12,6 +12,9 @@ class ForceUpdateScreen extends StatelessWidget {
   final String? title;
   final String? description;
   final String? updateDescription;
+  final String? iosTextButton;
+  final String? androidTextButton;
+  final String? forceUpdateText;
   final String? playStoreUrl;
   final String? appStoreUrl;
   final Color? color;
@@ -23,6 +26,9 @@ class ForceUpdateScreen extends StatelessWidget {
     this.title,
     this.description,
     this.updateDescription,
+    this.iosTextButton,
+    this.androidTextButton,
+    this.forceUpdateText,
     this.playStoreUrl,
     this.appStoreUrl,
     this.color,
@@ -155,19 +161,15 @@ class ForceUpdateScreen extends StatelessWidget {
                       ),
                       SizedBox(width: 10.w),
                       TextTitle(
-                        Platform.isIOS ? 'Open App Store' : 'Open Play Store',
+                        Platform.isIOS ? iosTextButton??'Open App Store' : androidTextButton??'Open Play Store',
                       ),
                     ],
                   ),
                 ),
               ),
               SizedBox(height: 18.h),
-              Text(
-                'You must update the app to continue.',
-                style: TextStyle(
-                  fontSize: 13.sp,
-                  color: Colors.white54,
-                ),
+              TextDescription(
+                forceUpdateText ?? 'You must update the app to continue.',
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 12.h),
