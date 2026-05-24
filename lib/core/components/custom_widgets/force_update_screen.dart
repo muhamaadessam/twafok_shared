@@ -32,8 +32,8 @@ class ForceUpdateScreen extends StatelessWidget {
     final String? url = Platform.isAndroid
         ? playStoreUrl
         : Platform.isIOS
-        ? appStoreUrl
-        : null;
+            ? appStoreUrl
+            : null;
 
     if (url == null || url.isEmpty) return;
 
@@ -59,25 +59,7 @@ class ForceUpdateScreen extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(width: double.infinity),
-
-              Align(
-                alignment: AlignmentDirectional.centerEnd,
-                child: Container(
-                  padding: EdgeInsets.all(10.r),
-                  decoration: BoxDecoration(
-                    color: (color??context.mainColor).withValues(alpha: 0.12),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    Icons.system_update_alt_rounded,
-                    color: color??context.mainColor,
-                    size: 24.r,
-                  ),
-                ),
-              ),
-
               const Spacer(),
-
               Container(
                 padding: EdgeInsets.all(24.r),
                 decoration: BoxDecoration(
@@ -89,77 +71,72 @@ class ForceUpdateScreen extends StatelessWidget {
                 ),
                 child: assetImage != null
                     ? Image.asset(
-                  assetImage!,
-                  width: 240.w,
-                  fit: BoxFit.contain,
-                )
+                        assetImage!,
+                        width: 240.w,
+                        fit: BoxFit.contain,
+                      )
                     : imageUrl != null
-                    ? ClipRRect(
-                  borderRadius: BorderRadius.circular(24.r),
-                  child: CustomNetworkImage(
-                    image: imageUrl!,
-                  ),
-                )
-                    : Container(
-                  width: 120.r,
-                  height: 120.r,
-                  decoration: BoxDecoration(
-                    color: (color??context.mainColor).withValues(alpha: 0.12),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    Icons.system_update_alt_rounded,
-                    size: 60.r,
-                    color: color??context.mainColor,
-                  ),
-                ),
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(24.r),
+                            child: CustomNetworkImage(
+                              image: imageUrl!,
+                            ),
+                          )
+                        : Container(
+                            width: 120.r,
+                            height: 120.r,
+                            decoration: BoxDecoration(
+                              color: (color ?? context.mainColor)
+                                  .withValues(alpha: 0.12),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.system_update_alt_rounded,
+                              size: 60.r,
+                              color: color ?? context.mainColor,
+                            ),
+                          ),
               ),
-
               SizedBox(height: 42.h),
-
               TextTitle(
                 title ?? 'Update Required',
                 textAlign: TextAlign.center,
                 fontSize: 28.sp,
               ),
-
               SizedBox(height: 14.h),
-
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 12.w),
                 child: TextBody14(
-                 description ?? 'A new version of the application is available. Please update now to continue using all features and enjoy the latest improvements.',
+                  description ??
+                      'A new version of the application is available. Please update now to continue using all features and enjoy the latest improvements.',
                   textAlign: TextAlign.center,
                 ),
               ),
-
               SizedBox(height: 36.h),
-
               Container(
                 padding: EdgeInsets.all(18.r),
                 decoration: BoxDecoration(
-                  color: (color??context.mainColor).withValues(alpha: 0.08),
+                  color: (color ?? context.mainColor).withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(18.r),
                 ),
                 child: Row(
                   children: [
                     Icon(
                       Icons.auto_awesome_rounded,
-                      color: color??context.mainColor,
+                      color: color ?? context.mainColor,
                       size: 22.r,
                     ),
                     SizedBox(width: 12.w),
                     Expanded(
                       child: TextBody14(
-                        updateDescription ?? 'This update includes performance improvements, bug fixes and a better experience.',
+                        updateDescription ??
+                            'This update includes performance improvements, bug fixes and a better experience.',
                       ),
                     ),
                   ],
                 ),
               ),
-
               const Spacer(),
-
               SizedBox(
                 height: 58.h,
                 width: double.infinity,
@@ -178,17 +155,13 @@ class ForceUpdateScreen extends StatelessWidget {
                       ),
                       SizedBox(width: 10.w),
                       TextTitle(
-                        Platform.isIOS
-                            ? 'Open App Store'
-                            : 'Open Play Store',
+                        Platform.isIOS ? 'Open App Store' : 'Open Play Store',
                       ),
                     ],
                   ),
                 ),
               ),
-
               SizedBox(height: 18.h),
-
               Text(
                 'You must update the app to continue.',
                 style: TextStyle(
@@ -197,7 +170,6 @@ class ForceUpdateScreen extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-
               SizedBox(height: 12.h),
             ],
           ),
