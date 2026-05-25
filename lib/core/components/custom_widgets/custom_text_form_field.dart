@@ -88,6 +88,12 @@ class CustomTextFormField extends StatelessWidget {
               color: Color(0xffd8d8d8),
               fontFamily: 'Cairo',
             ),
+        errorStyle: TextStyle(
+          fontWeight: FontWeight.normal,
+          fontSize: 12,
+          color: context.errorColor,
+          fontFamily: 'Cairo',
+        ),
         floatingLabelStyle: TextStyle(
           fontWeight: FontWeight.normal,
           fontSize: 14,
