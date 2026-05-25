@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:twafok_shared/core/core.dart';
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
@@ -107,7 +108,7 @@ class CustomTextFormField extends StatelessWidget {
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius!),
-          borderSide: const BorderSide(),
+          borderSide: BorderSide(color: AppColors.errorColor),
         ),
         suffixIconColor: color,
         prefixIconColor: color,
