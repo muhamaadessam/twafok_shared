@@ -51,7 +51,7 @@ class TextFormFieldPermissions extends StatelessWidget {
             padding: const EdgeInsets.all(12.0),
             child: suffixIcon != null
                 ? Image.asset(
-                    'assets/png/$suffixIcon.png',
+                    suffixIcon!,
                     width: 14.w,
                     height: 14.w,
                   )
