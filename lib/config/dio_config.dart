@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logscope_flutter/logscope_flutter.dart';
@@ -236,19 +238,13 @@ class DioHelper {
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
         debugPrint('API Error ==> Connection Timeout');
-
         return 'Connection timeout';
-
       case DioExceptionType.connectionError:
         debugPrint('API Error ==> No Internet Connection');
-
         return 'No internet connection';
-
       case DioExceptionType.cancel:
         debugPrint('API Error ==> Request Cancelled');
-
         return 'Request cancelled';
-
       case DioExceptionType.badResponse:
         debugPrint('API Error ==> Bad Response');
         final data = error.response?.data;
@@ -259,13 +255,35 @@ class DioHelper {
         }
         debugPrint('API Error ==> Server error');
         return 'Server error';
-
-      default:
-        debugPrint('API Error ==> ${error.message ?? 'Unknown error'}');
-        return error.message ?? 'Unknown error';
+      case DioExceptionType.badCertificate:
+        debugPrint('API Error ==> Bad SSL Certificate');
+        return 'Bad SSL Certificate';
+      case DioExceptionType.unknown:
+        return _handleUnknown(error);
     }
   }
 
+  static String _handleUnknown(DioException error) {
+    final err = error.error;
+
+    if (err is SocketException) {
+      debugPrint('SocketException => No internet / DNS issue');
+      return 'No internet connection';
+    }
+
+    if (err is HandshakeException) {
+      debugPrint('HandshakeException => SSL issue');
+      return 'SSL Certificate error';
+    }
+
+    if (err is FormatException) {
+      debugPrint('FormatException => Bad response format');
+      return 'Bad response format';
+    }
+
+    debugPrint('Unknown root error: $err');
+    return error.message ?? 'Unknown error';
+  }
   // ===================== TOKEN =====================
 
   static Future<void> updateToken(String? token) async {
