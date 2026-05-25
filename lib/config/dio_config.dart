@@ -125,7 +125,7 @@ class DioHelper {
 
       return Success(model);
     } on DioException catch (e) {
-      return Error(ServerFailure(_handleError(e)));
+      return Error(_handleError(e));
     } catch (e) {
       debugPrint('API Error ==> ${e.toString()}');
       return Error(ServerFailure(e.toString()));
@@ -232,57 +232,84 @@ class DioHelper {
 
   // ===================== ERROR =====================
 
-  static String _handleError(DioException error) {
+  static Failure _handleError(DioException error) {
+    final statusCode = error.response?.statusCode ?? 0;
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
         debugPrint('API Error ==> Connection Timeout');
-        return 'Connection timeout';
+        return TimeoutFailure('Connection timeout');
       case DioExceptionType.connectionError:
         debugPrint('API Error ==> No Internet Connection');
-        return 'No internet connection';
+        return ConnectionFailure('No internet connection');
       case DioExceptionType.cancel:
         debugPrint('API Error ==> Request Cancelled');
-        return 'Request cancelled';
+        return ServerFailure('Request cancelled');
       case DioExceptionType.badResponse:
         debugPrint('API Error ==> Bad Response');
-        final data = error.response?.data;
-        if (data is Map) {
-          debugPrint(
-              'API Error ==> ${data['message'] ?? data['data']?['message'] ?? 'Server error'}');
-          return data['message'] ?? data['data']?['message'] ?? 'Server error';
-        }
-        debugPrint('API Error ==> Server error');
-        return 'Server error';
+        return _handleBadResponse(error, statusCode);
       case DioExceptionType.badCertificate:
         debugPrint('API Error ==> Bad SSL Certificate');
-        return 'Bad SSL Certificate';
+        return ServerFailure('Bad SSL Certificate');
       case DioExceptionType.unknown:
         return _handleUnknown(error);
     }
   }
 
-  static String _handleUnknown(DioException error) {
+  static Failure _handleBadResponse(DioException error, int? statusCode) {
+    final data = error.response?.data;
+
+    final message = (data is Map)
+        ? (data['message'] ?? data['data']?['message'])
+        : 'Server error';
+    debugPrint(
+        'API Error ==> ${data['message'] ?? data['data']?['message'] ?? 'Server error'}');
+
+    switch (statusCode) {
+      case 400:
+        debugPrint('API Error ==> Bad Request');
+        return BadRequestFailure(message);
+
+      case 401:
+        debugPrint('API Error ==> Unauthorized');
+        return UnauthorizedFailure(message);
+
+      case 403:
+        debugPrint('API Error ==> Forbidden');
+        return ForbiddenFailure(message);
+
+      case 404:
+        debugPrint('API Error ==> Not Found');
+        return NotFoundFailure(message);
+
+      case 500:
+      default:
+        debugPrint('API Error ==> Server Failure');
+        return ServerFailure(message);
+    }
+  }
+
+  static Failure _handleUnknown(DioException error) {
     final err = error.error;
 
     if (err is SocketException) {
       debugPrint('SocketException => No internet / DNS issue');
-      return 'No internet connection';
+      return ServerFailure('No internet connection');
     }
 
     if (err is HandshakeException) {
       debugPrint('HandshakeException => SSL issue');
-      return 'SSL Certificate error';
+      return ServerFailure('SSL Certificate error');
     }
 
     if (err is FormatException) {
       debugPrint('FormatException => Bad response format');
-      return 'Bad response format';
+      return ServerFailure('Bad response format');
     }
 
     debugPrint('Unknown root error: $err');
-    return error.message ?? 'Unknown error';
+    return ServerFailure(error.message ?? 'Unknown error');
   }
   // ===================== TOKEN =====================
 

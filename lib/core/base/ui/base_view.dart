@@ -108,20 +108,26 @@ abstract class BaseView<T extends BaseCubit<S>, S extends BaseState>
         break;
 
       case PageState.errorWithSnackBar:
+        onErrorSnackBar(
+          context,
+          title: state.failure?.message ?? '',
+        );
+        break;
       case PageState.error:
+      case PageState.errorWithScreen:
         if (ModalRoute.of(context)?.isCurrent == true) {
-          onErrorSnackBar(context, title: state.failure?.message ?? '');
+          final failure = state.failure;
+          if (failure is UnauthorizedFailure) {
+            _handleUnauthorized(context);
+            return;
+          } else {
+            _handleErrorScreen(context, state.failure?.message ?? '');
+          }
         }
         break;
-
       // No action needed for these states in the listener
       case PageState.init:
         onInitState(context, state);
-        break;
-      case PageState.errorWithScreen:
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) =>
-                ErrorScreen(description: state.failure?.message ?? '')));
         break;
       case PageState.loading:
       case PageState.failure:
@@ -130,5 +136,24 @@ abstract class BaseView<T extends BaseCubit<S>, S extends BaseState>
       case PageState.fetchComplete:
         break;
     }
+  }
+
+  _handleUnauthorized(BuildContext context) {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => UnauthorizedScreen(
+          onLogin: () => Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => LoginScreen(),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  _handleErrorScreen(BuildContext context, String message) {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => ErrorScreen(description: message)));
   }
 }

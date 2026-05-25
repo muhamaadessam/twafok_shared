@@ -42,23 +42,6 @@ class ErrorScreen extends StatelessWidget {
             children: [
               SizedBox(width: double.infinity),
 
-              /// Top status icon
-              Align(
-                alignment: AlignmentDirectional.centerEnd,
-                child: Container(
-                  padding: EdgeInsets.all(10.r),
-                  decoration: BoxDecoration(
-                    color: c.withValues(alpha: 0.12),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    Icons.error_outline_rounded,
-                    color: c,
-                    size: 24.r,
-                  ),
-                ),
-              ),
-
               const Spacer(),
 
               /// Main card
@@ -70,13 +53,6 @@ class ErrorScreen extends StatelessWidget {
                   border: Border.all(
                     color: Colors.white.withValues(alpha: 0.06),
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.15),
-                      blurRadius: 20,
-                      offset: const Offset(0, 10),
-                    ),
-                  ],
                 ),
                 child: Column(
                   children: [
@@ -107,9 +83,7 @@ class ErrorScreen extends StatelessWidget {
                           color: c,
                         ),
                       ),
-
                     SizedBox(height: 24.h),
-
                     Container(
                       padding: EdgeInsets.symmetric(
                         horizontal: 12.w,

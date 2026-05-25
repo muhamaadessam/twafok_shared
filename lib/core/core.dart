@@ -12,6 +12,7 @@ export 'components/custom_widgets/force_update_screen.dart';
 export 'components/custom_widgets/loading_view.dart';
 export 'components/custom_widgets/soon_screen.dart';
 export 'components/custom_widgets/text_form_field_permissions.dart';
+export 'components/custom_widgets/unauthorized_screen.dart';
 export 'components/pdf_viewer.dart';
 export 'components/pick_image/pick_image.dart';
 export 'components/pop_up/alert_dialog.dart';

@@ -44,6 +44,7 @@ class TwafokConfig {
     String? appName,
     String? appVersion,
     String? appPackage,
+    Widget? loginScreen,
 
     // API
     required String baseUrl,
