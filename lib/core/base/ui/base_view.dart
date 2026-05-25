@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../../config/twafok_config.dart';
 import '../../core.dart';
 
 abstract class BaseView<T extends BaseCubit<S>, S extends BaseState>
@@ -142,11 +143,15 @@ abstract class BaseView<T extends BaseCubit<S>, S extends BaseState>
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => UnauthorizedScreen(
-          onLogin: () => Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => LoginScreen(),
-            ),
-          ),
+          onLogin: () {
+            if (TwafokConfig.loginScreen != null) {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => TwafokConfig.loginScreen!,
+                ),
+              );
+            }
+          },
         ),
       ),
     );

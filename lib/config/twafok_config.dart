@@ -13,6 +13,7 @@ class TwafokConfig {
   static String appName = 'Twafok App';
   static String appVersion = '1.0.0';
   static String appPackage = 'com.twafok.app';
+  static Widget? loginScreen;
 
   // ============ API ============
   static String baseUrl = '';
@@ -102,6 +103,7 @@ class TwafokConfig {
     if (appName != null) TwafokConfig.appName = appName;
     if (appVersion != null) TwafokConfig.appVersion = appVersion;
     if (appPackage != null) TwafokConfig.appPackage = appPackage;
+    if (loginScreen != null) TwafokConfig.loginScreen = loginScreen;
 
     // API
     TwafokConfig.baseUrl = baseUrl;
