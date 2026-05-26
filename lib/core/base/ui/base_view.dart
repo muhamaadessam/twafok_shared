@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:twafok_shared/config/config.dart';
 
 import '../../../config/twafok_config.dart';
 import '../../core.dart';
@@ -145,6 +146,8 @@ abstract class BaseView<T extends BaseCubit<S>, S extends BaseState>
         builder: (context) => UnauthorizedScreen(
           onLogin: () {
             if (TwafokConfig.loginScreen != null) {
+              CacheHelper.clearData();
+              DioHelper.dispose();
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (context) => TwafokConfig.loginScreen!,
