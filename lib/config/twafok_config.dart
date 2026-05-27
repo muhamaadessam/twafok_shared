@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../core/constants/colors.dart';
-import '../core/network/local/cache_helper.dart';
-import '../core/network/remote/firebase_notification_helper.dart';
-import '../core/notifications/local_notification_helper.dart';
+import '../core/core.dart';
 import 'dio_config.dart';
 
 class TwafokConfig {
@@ -97,6 +94,14 @@ class TwafokConfig {
       CacheHelper.sharedPreferences;
     } catch (e) {
       await CacheHelper.init();
+    }
+
+    try {
+      SecureCacheHelper.secureStorage;
+    } catch (e) {
+      await SecureCacheHelper.init();
+      debugPrint(e.toString());
+      // Handle initialization error if needed
     }
 
     // App Info

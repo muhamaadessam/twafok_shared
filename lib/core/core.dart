@@ -32,6 +32,7 @@ export 'extensions/file_extension.dart';
 export 'extensions/map_extension.dart';
 export 'extensions/string_extension.dart';
 export 'network/local/cache_helper.dart';
+export 'network/local/secure_cache_helper.dart';
 export 'network/remote/firebase_notification_helper.dart';
 export 'network/remote/result_helper.dart';
 export 'notifications/local_notification_helper.dart';
