@@ -34,10 +34,6 @@ class CacheHelper {
 }
 
 extension LocalStorage on CacheHelper {
-  static String getFirebaseToken() {
-    return CacheHelper.get(key: 'firebase_token') ?? '';
-  }
-
   static bool getMode() {
     return CacheHelper.get(key: 'isDark') ?? false;
   }
