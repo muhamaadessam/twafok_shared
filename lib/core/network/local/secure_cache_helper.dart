@@ -76,11 +76,10 @@ extension SecureLocalStorage on SecureCacheHelper {
     );
   }
 
-  static Future<String> getAccessToken() async {
+  static Future<String?> getAccessToken() async {
     return await SecureCacheHelper.get(
-          key: 'access_token',
-        ) ??
-        '';
+      key: 'access_token',
+    );
   }
 
   static Future<void> saveRefreshToken(String token) async {

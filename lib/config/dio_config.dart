@@ -4,10 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logscope_flutter/logscope_flutter.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:twafok_shared/core/core.dart';
 
-import '../core/error/failure.dart';
-import '../core/network/local/cache_helper.dart';
-import '../core/network/remote/result_helper.dart';
 import 'twafok_config.dart';
 
 export 'package:dio/dio.dart';
@@ -49,7 +47,8 @@ class DioHelper {
 
     DioHelper.baseUrl = baseUrl;
 
-    final finalBaseUrl = CacheHelper.get(key: 'subDomainUrl') ?? baseUrl;
+    final finalBaseUrl =
+        await SecureCacheHelper.get(key: 'subDomainUrl') ?? baseUrl;
 
     _dio = Dio(
       BaseOptions(
@@ -66,8 +65,8 @@ class DioHelper {
     /// 🔥 Auto token injection (FIXED)
     _dio!.interceptors.add(
       InterceptorsWrapper(
-        onRequest: (options, handler) {
-          final token = CacheHelper.get(key: 'accessToken');
+        onRequest: (options, handler) async {
+          final token = await SecureLocalStorage.getAccessToken();
           if (token != null && token.toString().isNotEmpty) {
             options.headers['Authorization'] = 'Bearer $token';
           }
@@ -315,9 +314,9 @@ class DioHelper {
 
   static Future<void> updateToken(String? token) async {
     if (token != null) {
-      await CacheHelper.put(key: 'accessToken', value: token);
+      await SecureLocalStorage.saveAccessToken(token);
     } else {
-      await CacheHelper.remove(key: 'accessToken');
+      await SecureLocalStorage.clearTokens();
     }
   }
 
@@ -332,7 +331,7 @@ class DioHelper {
 
   static Future<void> updateBaseUrl(String url) async {
     baseUrl = url;
-    await CacheHelper.put(key: 'subDomainUrl', value: url);
+    await SecureCacheHelper.put(key: 'subDomainUrl', value: url);
     await reInit();
   }
 

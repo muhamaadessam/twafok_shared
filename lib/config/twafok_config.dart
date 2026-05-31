@@ -33,7 +33,7 @@ class TwafokConfig {
   // ============ Cache Keys ============
   static const String _themeModeKey = 'twafok_theme_mode';
 
-  static const String _tokenKey = 'twafok_token';
+  // static const String _tokenKey = 'twafok_token';
   static const String _subDomainUrlKey = 'subDomainUrl'; // key للـ sub domain
 
   // ============ Initialization ============
@@ -155,7 +155,9 @@ class TwafokConfig {
     );
 
     // Get saved sub domain URL if exists
-    final savedSubDomainUrl = CacheHelper.get(key: _subDomainUrlKey);
+    final savedSubDomainUrl =
+        await SecureCacheHelper.get(key: _subDomainUrlKey);
+    // ignore: dead_null_aware_expression
     final finalBaseUrl = savedSubDomainUrl ?? baseUrl ?? TwafokConfig.baseUrl;
 
     // ============ Initialize Dio Config ============
@@ -204,16 +206,16 @@ class TwafokConfig {
   // ============ Token Management ============
   static Future<void> setToken(String? token) async {
     if (token != null) {
-      await CacheHelper.put(key: _tokenKey, value: token);
+      await SecureLocalStorage.saveAccessToken(token);
     } else {
-      await CacheHelper.remove(key: _tokenKey);
+      await SecureLocalStorage.clearTokens();
     }
     // Update Dio headers
     await DioHelper.updateToken(token);
   }
 
   static String? getToken() {
-    final token = CacheHelper.get(key: _tokenKey);
+    final token = SecureLocalStorage.getAccessToken();
     return token as String?;
   }
 
@@ -225,16 +227,16 @@ class TwafokConfig {
   // ============ Sub Domain URL Management ============
   static Future<void> setSubDomainUrl(String? url) async {
     if (url != null && url.isNotEmpty) {
-      await CacheHelper.put(key: _subDomainUrlKey, value: url);
+      await SecureCacheHelper.put(key: _subDomainUrlKey, value: url);
       await DioHelper.updateBaseUrl(url);
     } else {
-      await CacheHelper.remove(key: _subDomainUrlKey);
+      await SecureCacheHelper.remove(key: _subDomainUrlKey);
       await DioHelper.updateBaseUrl(baseUrl);
     }
   }
 
   static String? getSubDomainUrl() {
-    final url = CacheHelper.get(key: _subDomainUrlKey);
+    final url = SecureCacheHelper.get(key: _subDomainUrlKey);
     return url as String?;
   }
 
