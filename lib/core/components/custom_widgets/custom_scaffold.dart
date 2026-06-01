@@ -33,8 +33,7 @@ class _CustomScaffoldState extends State<CustomScaffold> {
   bool isDeviceConnected = true;
 
   final Connectivity _connectivity = Connectivity();
-
-  late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
+  late StreamSubscription<List<ConnectivityResult>> _subscription;
 
   @override
   void initState() {
@@ -42,28 +41,24 @@ class _CustomScaffoldState extends State<CustomScaffold> {
 
     _initConnectivity();
 
-    _connectivitySubscription = _connectivity.onConnectivityChanged.listen(
-      _updateConnectionStatus,
-    );
+    _subscription = _connectivity.onConnectivityChanged.listen(_handleChange);
   }
 
   Future<void> _initConnectivity() async {
     final result = await _connectivity.checkConnectivity();
     if (!mounted) return;
 
-    await _updateConnectionStatus(result);
+    await _handleChange(result);
   }
 
-  Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
+  Future<void> _handleChange(List<ConnectivityResult> result) async {
     if (!mounted) return;
 
     final hasNetwork =
         result.isNotEmpty && result.any((r) => r != ConnectivityResult.none);
 
     if (!hasNetwork) {
-      setState(() {
-        isDeviceConnected = false;
-      });
+      setState(() => isDeviceConnected = false);
       return;
     }
 
@@ -71,14 +66,12 @@ class _CustomScaffoldState extends State<CustomScaffold> {
 
     if (!mounted) return;
 
-    setState(() {
-      isDeviceConnected = hasInternet;
-    });
+    setState(() => isDeviceConnected = hasInternet);
   }
 
   @override
   void dispose() {
-    _connectivitySubscription.cancel();
+    _subscription.cancel();
     super.dispose();
   }
 
@@ -91,7 +84,7 @@ class _CustomScaffoldState extends State<CustomScaffold> {
             Icons.signal_wifi_connected_no_internet_4_rounded,
             size: 150,
           ),
-          SizedBox(height: 16),
+          SizedBox(height: 12),
           TextTitle(
             'الجهاز غير متصل بالانترنت',
             color: Color(0xffc2c2c2),
