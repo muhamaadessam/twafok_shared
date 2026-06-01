@@ -1,8 +1,8 @@
 import 'dart:async';
 
-// import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-// import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:twafok_shared/core/core.dart';
 
 class CustomScaffold extends StatefulWidget {
@@ -30,48 +30,43 @@ class CustomScaffold extends StatefulWidget {
 }
 
 class _CustomScaffoldState extends State<CustomScaffold> {
-  var isDeviceConnected = true;
+  var isDeviceConnected = false;
 
-  // final Connectivity _connectivity = Connectivity();
-  // late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  final Connectivity _connectivity = Connectivity();
+  late StreamSubscription<List<ConnectivityResult>>
+      _connectivitySubscription; // ✅ List<ConnectivityResult>
 
-  // Future<void> initConnectivity() async {
-  //   late ConnectivityResult result;
-  //   result = await _connectivity.checkConnectivity();
-  //   if (!mounted) {
-  //     return Future.value(null);
-  //   }
-  //   return _updateConnectionStatus(result);
-  // }
+  Future<void> initConnectivity() async {
+    final results = await _connectivity
+        .checkConnectivity(); // ✅ returns List<ConnectivityResult>
+    if (!mounted) return;
+    return _updateConnectionStatus(results);
+  }
 
-  // Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-  //   if (result != ConnectivityResult.none) {
-  //     var isConnect = await InternetConnectionChecker().hasConnection;
-  //     setState(() {
-  //       isDeviceConnected = isConnect;
-  //     });
-  //   } else {
-  //     setState(() {
-  //       isDeviceConnected = false;
-  //     });
-  //   }
-  // }
+  Future<void> _updateConnectionStatus(List<ConnectivityResult> results) async {
+    // ✅ List<ConnectivityResult>
+    if (!results.contains(ConnectivityResult.none)) {
+      final isConnect = await InternetConnectionChecker
+          .instance.hasConnection; // ✅ named constructor
+      if (mounted) setState(() => isDeviceConnected = isConnect);
+    } else {
+      if (mounted) setState(() => isDeviceConnected = false);
+    }
+  }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   initConnectivity();
-  //   _connectivitySubscription =
-  //       _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
-  // }
+  @override
+  void initState() {
+    super.initState();
+    initConnectivity();
+    _connectivitySubscription = _connectivity.onConnectivityChanged
+        .listen(_updateConnectionStatus); // ✅ matches new stream type
+  }
 
-  // @override
-  // void dispose() {
-  //   _connectivitySubscription.cancel();
-  //   super.dispose();
-  // }
-
-  int count = 0;
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,36 +75,14 @@ class _CustomScaffoldState extends State<CustomScaffold> {
       child: !isDeviceConnected
           ? Scaffold(
               body: FutureBuilder(
+                future: Future.delayed(const Duration(seconds: 1)),
                 builder: (context, snap) {
-                  if (snap.connectionState == ConnectionState.waiting) {
-                    count++;
-                    return Container();
-                  }
-                  if (snap.connectionState == ConnectionState.active) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Icon(
-                          Icons.signal_wifi_connected_no_internet_4_rounded,
-                          size: 200,
-                        ),
-                        const Center(
-                          child: TextTitle(
-                            'الجهاز غير متصل بالانترنت',
-                            color: Color(0xffc2c2c2),
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    );
-                  }
                   if (snap.connectionState == ConnectionState.done) {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.signal_wifi_connected_no_internet_4_rounded,
                           size: 200,
                         ),
@@ -122,11 +95,9 @@ class _CustomScaffoldState extends State<CustomScaffold> {
                         ),
                       ],
                     );
-                  } else {
-                    return const CircularProgressIndicator();
                   }
+                  return const Center(child: CircularProgressIndicator());
                 },
-                future: Future.delayed(const Duration(seconds: 1)),
               ),
             )
           : Scaffold(

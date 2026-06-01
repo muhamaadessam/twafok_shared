@@ -1,0 +1,42 @@
+#!/bin/sh
+
+echo "🚀 Auto Increment Build Number..."
+
+PUBSPEC="pubspec.yaml"
+
+# Get current version
+CURRENT_VERSION=$(grep '^version:' "$PUBSPEC" | awk '{print $2}')
+
+if [ -z "$CURRENT_VERSION" ]; then
+  echo "❌ Version not found in pubspec.yaml"
+  exit 1
+fi
+
+# Split version and build number
+VERSION_NAME=$(echo "$CURRENT_VERSION" | cut -d+ -f1)
+BUILD_NUMBER=$(echo "$CURRENT_VERSION" | cut -d+ -f2)
+
+if ! echo "$BUILD_NUMBER" | grep -Eq '^[0-9]+$'; then
+  echo "❌ Invalid build number"
+  exit 1
+fi
+
+# Increment build number
+NEW_BUILD_NUMBER=$((BUILD_NUMBER + 1))
+NEW_VERSION="$VERSION_NAME+$NEW_BUILD_NUMBER"
+
+echo "📦 $CURRENT_VERSION → $NEW_VERSION"
+
+# Update pubspec.yaml
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  sed -i '' "s/^version:.*/version: $NEW_VERSION/" "$PUBSPEC"
+else
+  sed -i "s/^version:.*/version: $NEW_VERSION/" "$PUBSPEC"
+fi
+
+# Stage updated pubspec
+git add "$PUBSPEC"
+
+echo "✅ Version updated successfully"
+
+exit 0
