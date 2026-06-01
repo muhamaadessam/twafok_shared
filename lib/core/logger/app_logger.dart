@@ -1,25 +1,16 @@
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 
 class AppLogger {
-  static void info(dynamic message) {
-    _print('INFO', message);
-  }
+  static void info(dynamic message) => _print('ℹ️ INFO', message);
 
-  static void success(dynamic message) {
-    _print('SUCCESS', message);
-  }
+  static void success(dynamic message) => _print('✅ SUCCESS', message);
 
-  static void warning(dynamic message) {
-    _print('WARNING', message);
-  }
+  static void warning(dynamic message) => _print('⚠️ WARNING', message);
 
-  static void error(dynamic message) {
-    _print('ERROR', message);
-  }
+  static void error(dynamic message) => _print('❌ ERROR', message);
 
-  static void debug(dynamic message) {
-    _print('DEBUG', message);
-  }
+  static void debug(dynamic message) => _print('🐛 DEBUG', message);
 
   static void custom(
     dynamic message, {
@@ -34,10 +25,10 @@ class AppLogger {
   ) {
     if (!kDebugMode) return;
 
-    final time = DateTime.now().toIso8601String();
+    final time = DateFormat('HH:mm:ss a').format(DateTime.now());
 
     debugPrint(
-      '[$type][$time] $message',
+      '$type [$time] $message',
     );
   }
 }
