@@ -70,6 +70,8 @@ class _CustomScaffoldState extends State<CustomScaffold> {
 
   @override
   Widget build(BuildContext context) {
+    AppLogger.debug(
+        'Building CustomScaffold, isDeviceConnected: $isDeviceConnected');
     return Directionality(
       textDirection: TextDirection.rtl,
       child: !isDeviceConnected
