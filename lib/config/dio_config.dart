@@ -128,7 +128,7 @@ class DioHelper {
       return Error(_handleError(e));
     } catch (e) {
       debugPrint('API Error ==> ${e.toString()}');
-      return Error(ServerFailure(e.toString()));
+      return Error(e is Failure ? e : ServerFailure(e.toString()));
     }
   }
 
