@@ -74,6 +74,7 @@ class _CustomScaffoldState extends State<CustomScaffold> {
     setState(() {
       isDeviceConnected = hasInternet;
     });
+    AppLogger.info('Connectivity status updated: $isDeviceConnected');
   }
 
   @override
