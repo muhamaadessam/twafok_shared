@@ -1,6 +1,6 @@
 name: twafok_shared
 description: Shared widgets, utilities, and themes for Twafok projects
-version: 1.0.1+6
+version: 1.0.1+7
 homepage: https://github.com/muhamaadessam/twafok_shared
 
 environment:
