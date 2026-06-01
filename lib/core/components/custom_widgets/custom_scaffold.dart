@@ -33,36 +33,33 @@ class _CustomScaffoldState extends State<CustomScaffold> {
   bool isDeviceConnected = true;
 
   final Connectivity _connectivity = Connectivity();
-  late StreamSubscription<ConnectivityResult> _subscription;
+  late StreamSubscription<List<ConnectivityResult>> _subscription;
 
   @override
   void initState() {
     super.initState();
 
-    _initConnectivity();
-
-    _subscription =
-        _connectivity.onConnectivityChanged.listen(_onConnectivityChanged);
+    _init();
+    _subscription = _connectivity.onConnectivityChanged.listen(_onChange);
   }
 
-  Future<void> _initConnectivity() async {
+  Future<void> _init() async {
     final result = await _connectivity.checkConnectivity();
-
-    if (!mounted) return;
-
-    await _onConnectivityChanged(result);
+    await _onChange(result);
   }
 
-  Future<void> _onConnectivityChanged(ConnectivityResult result) async {
+  Future<void> _onChange(List<ConnectivityResult> result) async {
     if (!mounted) return;
 
-    final hasNetwork = result != ConnectivityResult.none;
+    final hasNetwork =
+        result.isNotEmpty && result.any((r) => r != ConnectivityResult.none);
 
     if (!hasNetwork) {
       setState(() => isDeviceConnected = false);
       return;
     }
 
+    // simple real internet check (NO packages)
     bool hasInternet = false;
 
     try {
@@ -88,10 +85,7 @@ class _CustomScaffoldState extends State<CustomScaffold> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.signal_wifi_connected_no_internet_4_rounded,
-            size: 150,
-          ),
+          Icon(Icons.signal_wifi_connected_no_internet_4_rounded, size: 150),
           SizedBox(height: 12),
           TextTitle(
             'الجهاز غير متصل بالانترنت',
