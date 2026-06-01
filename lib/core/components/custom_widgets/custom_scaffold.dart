@@ -1,8 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:twafok_shared/core/core.dart';
 
 class CustomScaffold extends StatefulWidget {
@@ -33,7 +33,7 @@ class _CustomScaffoldState extends State<CustomScaffold> {
   bool isDeviceConnected = true;
 
   final Connectivity _connectivity = Connectivity();
-  late StreamSubscription<List<ConnectivityResult>> _subscription;
+  late StreamSubscription<ConnectivityResult> _subscription;
 
   @override
   void initState() {
@@ -41,28 +41,36 @@ class _CustomScaffoldState extends State<CustomScaffold> {
 
     _initConnectivity();
 
-    _subscription = _connectivity.onConnectivityChanged.listen(_handleChange);
+    _subscription =
+        _connectivity.onConnectivityChanged.listen(_onConnectivityChanged);
   }
 
   Future<void> _initConnectivity() async {
     final result = await _connectivity.checkConnectivity();
+
     if (!mounted) return;
 
-    await _handleChange(result);
+    await _onConnectivityChanged(result);
   }
 
-  Future<void> _handleChange(List<ConnectivityResult> result) async {
+  Future<void> _onConnectivityChanged(ConnectivityResult result) async {
     if (!mounted) return;
 
-    final hasNetwork =
-        result.isNotEmpty && result.any((r) => r != ConnectivityResult.none);
+    final hasNetwork = result != ConnectivityResult.none;
 
     if (!hasNetwork) {
       setState(() => isDeviceConnected = false);
       return;
     }
 
-    final hasInternet = await InternetConnectionChecker.instance.hasConnection;
+    bool hasInternet = false;
+
+    try {
+      final lookup = await InternetAddress.lookup('google.com');
+      hasInternet = lookup.isNotEmpty && lookup.first.rawAddress.isNotEmpty;
+    } catch (_) {
+      hasInternet = false;
+    }
 
     if (!mounted) return;
 
