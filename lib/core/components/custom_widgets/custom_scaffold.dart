@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
+// import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
+// import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:twafok_shared/core/core.dart';
 
 class CustomScaffold extends StatefulWidget {
@@ -30,46 +30,46 @@ class CustomScaffold extends StatefulWidget {
 }
 
 class _CustomScaffoldState extends State<CustomScaffold> {
-  var isDeviceConnected = false;
+  var isDeviceConnected = true;
 
-  final Connectivity _connectivity = Connectivity();
-  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  // final Connectivity _connectivity = Connectivity();
+  // late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
-  Future<void> initConnectivity() async {
-    late ConnectivityResult result;
-    result = await _connectivity.checkConnectivity();
-    if (!mounted) {
-      return Future.value(null);
-    }
-    return _updateConnectionStatus(result);
-  }
+  // Future<void> initConnectivity() async {
+  //   late ConnectivityResult result;
+  //   result = await _connectivity.checkConnectivity();
+  //   if (!mounted) {
+  //     return Future.value(null);
+  //   }
+  //   return _updateConnectionStatus(result);
+  // }
 
-  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-    if (result != ConnectivityResult.none) {
-      var isConnect = await InternetConnectionChecker().hasConnection;
-      setState(() {
-        isDeviceConnected = isConnect;
-      });
-    } else {
-      setState(() {
-        isDeviceConnected = false;
-      });
-    }
-  }
+  // Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+  //   if (result != ConnectivityResult.none) {
+  //     var isConnect = await InternetConnectionChecker().hasConnection;
+  //     setState(() {
+  //       isDeviceConnected = isConnect;
+  //     });
+  //   } else {
+  //     setState(() {
+  //       isDeviceConnected = false;
+  //     });
+  //   }
+  // }
 
-  @override
-  void initState() {
-    super.initState();
-    initConnectivity();
-    _connectivitySubscription =
-        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   initConnectivity();
+  //   _connectivitySubscription =
+  //       _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+  // }
 
-  @override
-  void dispose() {
-    _connectivitySubscription.cancel();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _connectivitySubscription.cancel();
+  //   super.dispose();
+  // }
 
   int count = 0;
 
