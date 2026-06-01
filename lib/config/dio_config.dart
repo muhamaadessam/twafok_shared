@@ -27,8 +27,8 @@ class DioHelper {
 
   static Dio get dio {
     if (_dio == null) {
-      throw Error(ServerFailure(
-          'DioHelper not initialized. Call DioHelper.init() first.'));
+      throw ServerFailure(
+          'DioHelper not initialized. Call DioHelper.init() first.');
     }
     return _dio!;
   }
@@ -207,7 +207,7 @@ class DioHelper {
 
     /// 1. Safety check
     if (data is! Map<String, dynamic>) {
-      throw Error(BadRequestFailure('Invalid response format'));
+      throw BadRequestFailure('Invalid response format');
     }
 
     /// 2. Extract status safely (body OR HTTP fallback)
@@ -222,7 +222,7 @@ class DioHelper {
       final message =
           data['data']?['message'] ?? data['message'] ?? 'Unknown error';
 
-      throw Error(ServerFailure(message));
+      throw ServerFailure(message);
     }
 
     /// 4. Return normalized data
