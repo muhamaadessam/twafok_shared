@@ -67,14 +67,13 @@ class _CustomScaffoldState extends State<CustomScaffold> {
       return;
     }
 
-    final hasInternet = await InternetConnectionChecker().hasConnection;
+    final hasInternet = await InternetConnectionChecker.instance.hasConnection;
 
     if (!mounted) return;
 
     setState(() {
       isDeviceConnected = hasInternet;
     });
-    AppLogger.info('Connectivity status updated: $isDeviceConnected');
   }
 
   @override

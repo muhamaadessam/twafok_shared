@@ -23,7 +23,7 @@ dependencies:
   flutter_speed_dial: ^7.0.0
   flutter_svg: ^2.0.9
   get_it: ^9.2.1
-  internet_connection_checker: ^1.0.0+1
+  internet_connection_checker: ^3.0.1
   intl: ^0.20.2
   pretty_dio_logger: ^1.4.0
   shared_preferences: ^2.2.2
