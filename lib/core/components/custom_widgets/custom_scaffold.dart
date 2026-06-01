@@ -1,6 +1,9 @@
 import 'dart:async';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:twafok_shared/core/core.dart';
 
 class CustomScaffold extends StatefulWidget {
   const CustomScaffold({
@@ -27,66 +30,114 @@ class CustomScaffold extends StatefulWidget {
 }
 
 class _CustomScaffoldState extends State<CustomScaffold> {
-  bool isConnected = true;
+  var isDeviceConnected = false;
 
-  final _connectivity = Connectivity();
-  StreamSubscription<List<ConnectivityResult>>? _sub;
+  final Connectivity _connectivity = Connectivity();
+  late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
+
+  Future<void> initConnectivity() async {
+    final List<ConnectivityResult> result =
+        await _connectivity.checkConnectivity();
+    if (!mounted) {
+      return;
+    }
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
+    if (result.isNotEmpty &&
+        result.any((item) => item != ConnectivityResult.none)) {
+      var isConnect = await InternetConnectionChecker().hasConnection;
+      setState(() {
+        isDeviceConnected = isConnect;
+      });
+    } else {
+      setState(() {
+        isDeviceConnected = false;
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    _init();
-
-    _sub = _connectivity.onConnectivityChanged.listen((result) {
-      _handle(result);
-    });
-  }
-
-  Future<void> _init() async {
-    final result = await _connectivity.checkConnectivity();
-    _handle(result);
-  }
-
-  void _handle(List<ConnectivityResult> result) {
-    final hasNetwork =
-        result.isNotEmpty && result.any((r) => r != ConnectivityResult.none);
-
-    setState(() {
-      isConnected = hasNetwork;
-    });
+    initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
   }
 
   @override
   void dispose() {
-    _sub?.cancel();
+    _connectivitySubscription.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!isConnected) {
-      return const Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.wifi_off, size: 120),
-              SizedBox(height: 10),
-              Text("No Internet Connection"),
-            ],
-          ),
-        ),
-      );
-    }
-
-    return Scaffold(
-      backgroundColor: widget.backgroundColor,
-      appBar: widget.appBar,
-      drawer: widget.drawer,
-      floatingActionButton: widget.floatingActionButton,
-      floatingActionButtonLocation: widget.floatingActionButtonLocation,
-      bottomNavigationBar: widget.bottomNavigationBar,
-      body: widget.body,
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: !isDeviceConnected
+          ? Scaffold(
+              body: FutureBuilder(
+                builder: (context, snap) {
+                  if (snap.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snap.connectionState == ConnectionState.active) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Icon(
+                          Icons.signal_wifi_connected_no_internet_4_rounded,
+                          size: 200,
+                        ),
+                        const Center(
+                          child: TextTitle(
+                            'الجهاز غير متصل بالانترنت',
+                            color: Color(0xffc2c2c2),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                  if (snap.connectionState == ConnectionState.done) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Icon(
+                          Icons.signal_wifi_connected_no_internet_4_rounded,
+                          size: 200,
+                        ),
+                        const Center(
+                          child: TextTitle(
+                            'الجهاز غير متصل بالانترنت',
+                            color: Color(0xffc2c2c2),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return const CircularProgressIndicator();
+                  }
+                },
+                future: Future.delayed(const Duration(seconds: 1)),
+              ),
+            )
+          : Scaffold(
+              backgroundColor: widget.backgroundColor,
+              floatingActionButtonLocation: widget.floatingActionButtonLocation,
+              floatingActionButton: widget.floatingActionButton,
+              drawer: widget.drawer,
+              bottomNavigationBar: widget.bottomNavigationBar,
+              body: widget.body,
+              appBar: widget.appBar,
+            ),
     );
   }
 }
