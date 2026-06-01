@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:twafok_shared/core/core.dart';
 
-void errorGetSnackBar(context, {required String title, String? message}) {
+void errorGetSnackBar(BuildContext context,
+    {required String title, String? message}) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       behavior: SnackBarBehavior.floating,

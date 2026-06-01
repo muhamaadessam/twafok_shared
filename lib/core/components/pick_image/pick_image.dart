@@ -13,7 +13,9 @@ Future<File?> pickImage() async {
     if (result != null) {
       fileName = result.files.first.name;
       pickedFile = result.files.first;
-      fileToDisplay = File(pickedFile.path.toString());
+      if (pickedFile.path != null) {
+        fileToDisplay = File(pickedFile.path!);
+      }
     }
     debugPrint(fileName);
 
