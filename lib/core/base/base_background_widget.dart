@@ -19,7 +19,7 @@ class BaseBackgroundWidget extends StatelessWidget {
               [
                 const Color(0xFF1A1F3D),
                 const Color(0xFF15192B),
-                const Color.fromARGB(255, 55, 56, 60),
+                const Color.fromARGB(255, 55, 56, 59),
               ],
         ),
       ),
