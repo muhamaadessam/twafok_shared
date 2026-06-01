@@ -31,6 +31,7 @@ export 'extensions/context_extension.dart';
 export 'extensions/file_extension.dart';
 export 'extensions/map_extension.dart';
 export 'extensions/string_extension.dart';
+export 'logger/app_logger.dart';
 export 'network/local/cache_helper.dart';
 export 'network/local/secure_cache_helper.dart';
 export 'network/remote/firebase_notification_helper.dart';
