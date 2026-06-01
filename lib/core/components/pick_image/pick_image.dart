@@ -9,11 +9,13 @@ Future<File?> pickImage() async {
   PlatformFile? pickedFile;
   File? fileToDisplay;
   try {
-    result = await FilePicker.platform.pickFiles(type: FileType.image);
+    result = await FilePicker.pickFiles(type: FileType.image);
     if (result != null) {
       fileName = result.files.first.name;
       pickedFile = result.files.first;
-      fileToDisplay = File(pickedFile.path.toString());
+      if (pickedFile.path != null) {
+        fileToDisplay = File(pickedFile.path!);
+      }
     }
     debugPrint(fileName);
 

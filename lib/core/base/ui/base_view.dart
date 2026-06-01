@@ -139,7 +139,7 @@ abstract class BaseView<T extends BaseCubit<S>, S extends BaseState>
     }
   }
 
-  _handleUnauthorized(BuildContext context) {
+  void _handleUnauthorized(BuildContext context) {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => UnauthorizedScreen(
@@ -159,7 +159,7 @@ abstract class BaseView<T extends BaseCubit<S>, S extends BaseState>
     );
   }
 
-  _handleErrorScreen(BuildContext context, String message) {
+  void _handleErrorScreen(BuildContext context, String message) {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) => ErrorScreen(description: message)));
   }

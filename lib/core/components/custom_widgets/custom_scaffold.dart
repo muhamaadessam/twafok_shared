@@ -33,19 +33,20 @@ class _CustomScaffoldState extends State<CustomScaffold> {
   var isDeviceConnected = false;
 
   final Connectivity _connectivity = Connectivity();
-  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
 
   Future<void> initConnectivity() async {
-    late ConnectivityResult result;
-    result = await _connectivity.checkConnectivity();
+    final List<ConnectivityResult> result =
+        await _connectivity.checkConnectivity();
     if (!mounted) {
-      return Future.value(null);
+      return;
     }
     return _updateConnectionStatus(result);
   }
 
-  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-    if (result != ConnectivityResult.none) {
+  Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
+    if (result.isNotEmpty &&
+        result.any((item) => item != ConnectivityResult.none)) {
       var isConnect = await InternetConnectionChecker().hasConnection;
       setState(() {
         isDeviceConnected = isConnect;
@@ -71,8 +72,6 @@ class _CustomScaffoldState extends State<CustomScaffold> {
     super.dispose();
   }
 
-  int count = 0;
-
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -82,8 +81,9 @@ class _CustomScaffoldState extends State<CustomScaffold> {
               body: FutureBuilder(
                 builder: (context, snap) {
                   if (snap.connectionState == ConnectionState.waiting) {
-                    count++;
-                    return Container();
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
                   }
                   if (snap.connectionState == ConnectionState.active) {
                     return Column(
