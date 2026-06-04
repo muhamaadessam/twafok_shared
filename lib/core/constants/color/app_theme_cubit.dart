@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:twafok_shared/twafok_shared.dart';
+import 'package:essam_shared/essam_shared.dart';
 
 part 'app_theme_state.dart';
 
@@ -22,8 +22,8 @@ class AppThemeCubit extends Cubit<AppThemeState> {
     // Save to cache
     await CacheHelper.put(key: 'isDark', value: newIsDark);
 
-    // Update TwafokConfig
-    TwafokConfig.setThemeMode(newIsDark ? ThemeMode.dark : ThemeMode.light);
+    // Update EssamConfig
+    EssamConfig.setThemeMode(newIsDark ? ThemeMode.dark : ThemeMode.light);
 
     emit(
       AppThemeState(
@@ -40,7 +40,7 @@ class AppThemeCubit extends Cubit<AppThemeState> {
     await CacheHelper.put(key: 'themeMode', value: mode.index);
     await CacheHelper.put(key: 'isDark', value: isDark);
 
-    TwafokConfig.setThemeMode(mode);
+    EssamConfig.setThemeMode(mode);
 
     emit(
       AppThemeState(

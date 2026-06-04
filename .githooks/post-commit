@@ -1,0 +1,10 @@
+#!/bin/sh
+
+VERSION=$(grep '^version:' pubspec.yaml | awk '{print $2}')
+TAG="v$VERSION"
+
+if ! git rev-parse "$TAG" >/dev/null 2>&1; then
+    git tag "$TAG"
+    echo "🏷️ Created tag: $TAG"
+    push --tags  > /dev/null
+fi

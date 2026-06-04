@@ -1,6 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:twafok_shared/core/core.dart';
+import 'package:essam_shared/core/core.dart';
 
 Future<dynamic> showAlertDialog(
     {required BuildContext context, required Widget content}) {
@@ -21,26 +23,28 @@ Future<void> showSuccessDialog(
   Widget? nextScreen,
   bool removeAll = false, // 👈 control navigation behavior
 }) async {
-  await showAlertDialog(
-    context: context,
-    content: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        if (icon != null)
-          Image.asset(
-            icon,
-            width: 40.w,
-            height: 40.h,
-          )
-        else
-          Icon(
-            Icons.check_circle,
-            size: 40,
-            color: Colors.green,
-          ),
-        SizedBox(height: 8.h),
-        TextBody12(message ?? 'تم إرسال طلبك'),
-      ],
+  unawaited(
+    showAlertDialog(
+      context: context,
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (icon != null)
+            Image.asset(
+              icon,
+              width: 40.w,
+              height: 40.h,
+            )
+          else
+            Icon(
+              Icons.check_circle,
+              size: 40,
+              color: Colors.green,
+            ),
+          SizedBox(height: 8.h),
+          TextBody12(message ?? 'تم إرسال طلبك'),
+        ],
+      ),
     ),
   );
 

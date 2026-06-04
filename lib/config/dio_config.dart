@@ -4,9 +4,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logscope_flutter/logscope_flutter.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:twafok_shared/core/core.dart';
+import 'package:essam_shared/core/core.dart';
 
-import 'twafok_config.dart';
+import 'essam_config.dart';
 
 export 'package:dio/dio.dart';
 
@@ -27,7 +27,8 @@ class DioHelper {
 
   static Dio get dio {
     if (_dio == null) {
-      throw Exception('DioHelper not initialized');
+      throw ServerFailure(
+          'DioHelper not initialized. Call DioHelper.init() first.');
     }
     return _dio!;
   }
@@ -127,7 +128,7 @@ class DioHelper {
       return Error(_handleError(e));
     } catch (e) {
       debugPrint('API Error ==> ${e.toString()}');
-      return Error(ServerFailure(e.toString()));
+      return Error(e is Failure ? e : ServerFailure(e.toString()));
     }
   }
 
@@ -206,7 +207,7 @@ class DioHelper {
 
     /// 1. Safety check
     if (data is! Map<String, dynamic>) {
-      throw Exception('Invalid response format');
+      throw BadRequestFailure('Invalid response format');
     }
 
     /// 2. Extract status safely (body OR HTTP fallback)
@@ -221,7 +222,7 @@ class DioHelper {
       final message =
           data['data']?['message'] ?? data['message'] ?? 'Unknown error';
 
-      throw Exception(message);
+      throw ServerFailure(message);
     }
 
     /// 4. Return normalized data
@@ -321,7 +322,7 @@ class DioHelper {
   }
 
   static Future<void> syncWithConfig() async {
-    final token = TwafokConfig.getToken();
+    final token = EssamConfig.getToken();
     if (token != null) {
       await updateToken(token);
     }

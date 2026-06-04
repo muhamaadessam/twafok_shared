@@ -1,11 +1,11 @@
-# Twafok Shared
+# Essam Shared
 
 ![Version](https://img.shields.io/badge/version-1.0.1%2B2-blue)
 ![Flutter](https://img.shields.io/badge/Flutter-3.0.0+-02569B)
 ![Dart](https://img.shields.io/badge/Dart-3.0.0+-0175C2)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-A shared Flutter package containing widgets, utilities, and unified themes for Twafok projects. This package provides a complete infrastructure for application development with ready-to-use tools.
+A shared Flutter package containing widgets, utilities, and unified themes for Essam projects. This package provides a complete infrastructure for application development with ready-to-use tools.
 
 ## 📋 Table of Contents
 
@@ -21,22 +21,26 @@ A shared Flutter package containing widgets, utilities, and unified themes for T
 ## ✨ Features
 
 ### 🎨 Ready-to-use Components
+
 - **Shared Widgets**: A collection of reusable widgets
 - **Unified Themes**: Consistent design system across all applications
 - **Ready Components**: Buttons, input fields, cards, and more
 
 ### 🔧 Utilities
+
 - **Network Management**: Integration with Dio for API request management
 - **State Management**: Support for Flutter Bloc
 - **Local Storage**: SharedPreferences integration
 - **Connection Checking**: Internet connection monitoring
 
 ### 🔔 Notifications
+
 - **Firebase Cloud Messaging**: Full support for cloud notifications
 - **Local Notifications**: Advanced local notification system
 - **Android & iOS Integration**: Ready-to-use configurations for both platforms
 
 ### 🛠️ Additional Tools
+
 - **Error Handling**: Integrated error management system
 - **Form Validation**: Data validation tools
 - **File Picker**: File selection support
@@ -55,7 +59,7 @@ Add the package to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  twafok_shared: ^1.0.1+2
+  essam_shared: ^1.0.1+2
 ```
 
 Then run:
@@ -69,17 +73,17 @@ flutter pub get
 ### Basic Initialization
 
 ```dart
-import 'package:twafok_shared/twafok_shared.dart';
+import 'package:essam_shared/essam_shared.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Initialize Firebase
   await Firebase.initializeApp();
-  
+
   // Initialize notifications
-  await TwafokConfig.initializeNotifications();
-  
+  await EssamConfig.initializeNotifications();
+
   runApp(MyApp());
 }
 ```
@@ -87,7 +91,7 @@ void main() async {
 ### Using Widgets
 
 ```dart
-import 'package:twafok_shared/core/components/widgets/custom_button.dart';
+import 'package:essam_shared/core/components/widgets/custom_button.dart';
 
 CustomButton(
   text: 'Click here',
@@ -100,7 +104,7 @@ CustomButton(
 ### Using Network Management
 
 ```dart
-import 'package:twafok_shared/core/network/remote/dio_helper.dart';
+import 'package:essam_shared/core/network/remote/dio_helper.dart';
 
 final response = await DioHelper.postData(
   url: '/api/endpoint',
@@ -111,7 +115,7 @@ final response = await DioHelper.postData(
 ### Using Notifications
 
 ```dart
-import 'package:twafok_shared/core/notifications/firebase_notification_helper.dart';
+import 'package:essam_shared/core/notifications/firebase_notification_helper.dart';
 
 await FirebaseNotificationHelper.showNotification(
   title: 'Notification Title',
@@ -253,7 +257,7 @@ lib/
 ├── config/              # App configurations
 │   ├── config.dart
 │   ├── dio_config.dart
-│   └── twafok_config.dart
+│   └── essam_config.dart
 ├── core/                # Core functionality
 │   ├── base/           # Base classes
 │   ├── components/     # Reusable components
@@ -284,6 +288,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 📞 Support
 
 If you encounter any issues or have questions, please:
+
 - Open an issue on GitHub
 - Contact the development team
 
@@ -295,4 +300,4 @@ If you encounter any issues or have questions, please:
 
 ---
 
-Made with ❤️ by the Twafok Team
+Made with ❤️ by the Essam Dev

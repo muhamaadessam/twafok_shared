@@ -1,4 +1,4 @@
-// import 'package:twafok_shared/core/core.dart';
+// import 'package:essam_shared/core/core.dart';
 
 export 'base/base_background_widget.dart';
 export 'base/bloc/base_bloc.dart';
