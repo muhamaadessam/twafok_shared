@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:logscope_flutter/logscope_flutter.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:twafok_shared/core/core.dart';
 
@@ -35,9 +34,7 @@ class DioHelper {
 
   static Future<void> init({
     required String baseUrl,
-    bool enableLogging = true,
     bool enablePrettyLogger = true,
-    bool enableLogscope = true,
     Duration? connectionTimeout,
     Duration? receiveTimeout,
     Duration? sendTimeout,
@@ -87,10 +84,6 @@ class DioHelper {
           compact: true,
         ),
       );
-    }
-
-    if (enableLogscope) {
-      _dio!.interceptors.add(Logscope.dioInterceptor());
     }
 
     if (customInterceptors != null) {

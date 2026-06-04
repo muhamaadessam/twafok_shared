@@ -21,7 +21,6 @@ class TwafokConfig {
   };
 
   // ============ Features ============
-  static bool enableLogging = true;
   static bool enableAnalytics = false;
   static bool enableCrashlytics = false;
   static bool enablePushNotifications = false;
@@ -77,9 +76,7 @@ class TwafokConfig {
     String? fontFamily,
 
     // Dio Config
-    bool? enableApiLogging,
     bool? enablePrettyLogger,
-    bool? enableLogscope,
     List<Interceptor>? customInterceptors,
 
     // Notifications
@@ -118,7 +115,6 @@ class TwafokConfig {
     }
 
     // Features
-    if (enableLogging != null) TwafokConfig.enableLogging = enableLogging;
     if (enableAnalytics != null) TwafokConfig.enableAnalytics = enableAnalytics;
     if (enableCrashlytics != null) {
       TwafokConfig.enableCrashlytics = enableCrashlytics;
@@ -164,9 +160,7 @@ class TwafokConfig {
     await DioHelper.init(
       baseUrl: finalBaseUrl.toString(),
       connectionTimeout: apiTimeout ?? const Duration(seconds: 30),
-      enableLogging: enableApiLogging ?? enableLogging ?? true,
       enablePrettyLogger: enablePrettyLogger ?? true,
-      enableLogscope: enableLogscope ?? true,
       defaultHeaders: defaultHeaders ?? TwafokConfig.defaultHeaders,
       customInterceptors: customInterceptors,
     );
