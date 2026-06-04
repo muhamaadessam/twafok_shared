@@ -4,9 +4,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logscope_flutter/logscope_flutter.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:twafok_shared/core/core.dart';
+import 'package:essam_shared/core/core.dart';
 
-import 'twafok_config.dart';
+import 'essam_config.dart';
 
 export 'package:dio/dio.dart';
 
@@ -322,7 +322,7 @@ class DioHelper {
   }
 
   static Future<void> syncWithConfig() async {
-    final token = TwafokConfig.getToken();
+    final token = EssamConfig.getToken();
     if (token != null) {
       await updateToken(token);
     }

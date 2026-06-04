@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:twafok_shared/config/config.dart';
+import 'package:essam_shared/config/config.dart';
 
 import '../../core.dart';
 
@@ -144,12 +144,12 @@ abstract class BaseView<T extends BaseCubit<S>, S extends BaseState>
       MaterialPageRoute(
         builder: (context) => UnauthorizedScreen(
           onLogin: () {
-            if (TwafokConfig.loginScreen != null) {
+            if (EssamConfig.loginScreen != null) {
               CacheHelper.clearData();
               DioHelper.dispose();
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) => TwafokConfig.loginScreen!,
+                  builder: (context) => EssamConfig.loginScreen!,
                 ),
               );
             }

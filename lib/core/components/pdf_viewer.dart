@@ -1,6 +1,6 @@
 // import 'package:flutter/material.dart';
 // import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-// import 'package:twafok_shared/core/core.dart';
+// import 'package:essam_shared/core/core.dart';
 //
 // class PdfView extends StatelessWidget {
 //   const PdfView({super.key, required this.pdfPath, required this.pdfTitle});

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:twafok_shared/core/core.dart';
+import 'package:essam_shared/core/core.dart';
 
 class CustomNetworkImage extends StatelessWidget {
   const CustomNetworkImage({

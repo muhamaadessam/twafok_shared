@@ -1,4 +1,4 @@
-import 'package:twafok_shared/twafok_shared.dart';
+import 'package:essam_shared/essam_shared.dart';
 
 void main() {
   var awesome = Awesome();

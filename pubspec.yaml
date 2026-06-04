@@ -1,6 +1,6 @@
-name: twafok_shared
-description: Shared widgets, utilities, and themes for Twafok projects
-version: 1.0.1+15
+name: essam_shared
+description: Shared widgets, utilities, and themes for Essam projects
+version: 1.0.1+16
 homepage: https://github.com/muhamaadessam/twafok_shared
 
 environment:

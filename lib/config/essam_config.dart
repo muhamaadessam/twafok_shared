@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import '../core/core.dart';
 import 'dio_config.dart';
 
-class TwafokConfig {
+class EssamConfig {
   static bool _isInitialized = false;
 
   // ============ App Info ============
-  static String appName = 'Twafok App';
+  static String appName = 'Essam App';
   static String appVersion = '1.0.0';
-  static String appPackage = 'com.twafok.app';
+  static String appPackage = 'com.essam.app';
   static Widget? loginScreen;
 
   // ============ API ============
@@ -31,9 +31,9 @@ class TwafokConfig {
   static bool useMaterial3 = false;
 
   // ============ Cache Keys ============
-  static const String _themeModeKey = 'twafok_theme_mode';
+  static const String _themeModeKey = 'essam_theme_mode';
 
-  // static const String _tokenKey = 'twafok_token';
+  // static const String _tokenKey = 'essam_token';
   static const String _subDomainUrlKey = 'subDomainUrl'; // key للـ sub domain
 
   // ============ Initialization ============
@@ -105,30 +105,30 @@ class TwafokConfig {
     }
 
     // App Info
-    if (appName != null) TwafokConfig.appName = appName;
-    if (appVersion != null) TwafokConfig.appVersion = appVersion;
-    if (appPackage != null) TwafokConfig.appPackage = appPackage;
-    if (loginScreen != null) TwafokConfig.loginScreen = loginScreen;
+    if (appName != null) EssamConfig.appName = appName;
+    if (appVersion != null) EssamConfig.appVersion = appVersion;
+    if (appPackage != null) EssamConfig.appPackage = appPackage;
+    if (loginScreen != null) EssamConfig.loginScreen = loginScreen;
 
     // API
-    TwafokConfig.baseUrl = baseUrl;
-    if (apiTimeout != null) TwafokConfig.apiTimeout = apiTimeout;
+    EssamConfig.baseUrl = baseUrl;
+    if (apiTimeout != null) EssamConfig.apiTimeout = apiTimeout;
     if (defaultHeaders != null) {
-      TwafokConfig.defaultHeaders.addAll(defaultHeaders);
+      EssamConfig.defaultHeaders.addAll(defaultHeaders);
     }
 
     // Features
-    if (enableLogging != null) TwafokConfig.enableLogging = enableLogging;
-    if (enableAnalytics != null) TwafokConfig.enableAnalytics = enableAnalytics;
+    if (enableLogging != null) EssamConfig.enableLogging = enableLogging;
+    if (enableAnalytics != null) EssamConfig.enableAnalytics = enableAnalytics;
     if (enableCrashlytics != null) {
-      TwafokConfig.enableCrashlytics = enableCrashlytics;
+      EssamConfig.enableCrashlytics = enableCrashlytics;
     }
     if (enablePushNotifications != null) {
-      TwafokConfig.enablePushNotifications = enablePushNotifications;
+      EssamConfig.enablePushNotifications = enablePushNotifications;
     }
 
     // Theme
-    if (useMaterial3 != null) TwafokConfig.useMaterial3 = useMaterial3;
+    if (useMaterial3 != null) EssamConfig.useMaterial3 = useMaterial3;
 
     // Load saved theme mode from CacheHelper
     final savedThemeMode = CacheHelper.get(key: _themeModeKey);
@@ -158,7 +158,7 @@ class TwafokConfig {
     final savedSubDomainUrl =
         await SecureCacheHelper.get(key: _subDomainUrlKey);
     // ignore: dead_null_aware_expression
-    final finalBaseUrl = savedSubDomainUrl ?? baseUrl ?? TwafokConfig.baseUrl;
+    final finalBaseUrl = savedSubDomainUrl ?? baseUrl ?? EssamConfig.baseUrl;
 
     // ============ Initialize Dio Config ============
     await DioHelper.init(
@@ -167,7 +167,7 @@ class TwafokConfig {
       enableLogging: enableApiLogging ?? enableLogging ?? true,
       enablePrettyLogger: enablePrettyLogger ?? true,
       enableLogscope: enableLogscope ?? true,
-      defaultHeaders: defaultHeaders ?? TwafokConfig.defaultHeaders,
+      defaultHeaders: defaultHeaders ?? EssamConfig.defaultHeaders,
       customInterceptors: customInterceptors,
     );
     if (enableNotifications ?? false) {
