@@ -214,13 +214,13 @@ class EssamConfig {
     await DioHelper.updateToken(token);
   }
 
-  static String? getToken() {
-    final token = SecureLocalStorage.getAccessToken();
-    return token as String?;
+  static Future<String?> getToken() async {
+    final token = await SecureLocalStorage.getAccessToken();
+    return token;
   }
 
-  static bool hasToken() {
-    final token = getToken();
+  static Future<bool> hasToken() async {
+    final token = await getToken();
     return token != null && token.isNotEmpty;
   }
 

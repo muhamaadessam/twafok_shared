@@ -4,8 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:essam_shared/core/core.dart';
 
-Future<dynamic> showAlertDialog(
-    {required BuildContext context, required Widget content}) {
+/// Shows an alert dialog with custom content.
+///
+/// This function displays a dialog with the provided [content].
+/// The dialog has a rounded border radius of 12.
+Future<dynamic> showAlertDialog({
+  required BuildContext context,
+  required Widget content,
+}) {
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
@@ -16,12 +22,20 @@ Future<dynamic> showAlertDialog(
   );
 }
 
+/// Shows a success dialog with optional icon and message.
+///
+/// This function displays a success dialog with an optional [icon],
+/// [message], and navigation to a [nextScreen]. The dialog automatically
+/// closes after 2 seconds and navigates to the next screen if provided.
+///
+/// The [removeAll] parameter controls whether to remove all routes
+/// from the navigation stack when navigating to the next screen.
 Future<void> showSuccessDialog(
   BuildContext context, {
   String? message,
   String? icon,
   Widget? nextScreen,
-  bool removeAll = false, // 👈 control navigation behavior
+  bool removeAll = false,
 }) async {
   unawaited(
     showAlertDialog(
@@ -36,13 +50,13 @@ Future<void> showSuccessDialog(
               height: 40.h,
             )
           else
-            Icon(
+            const Icon(
               Icons.check_circle,
               size: 40,
               color: Colors.green,
             ),
           SizedBox(height: 8.h),
-          TextBody12(message ?? 'تم إرسال طلبك'),
+          TextBody12(message ?? 'Success'),
         ],
       ),
     ),
@@ -52,10 +66,7 @@ Future<void> showSuccessDialog(
 
   if (!context.mounted) return;
 
-  // ✅ قفل الدايالوج الأول
-  // Navigator.of(context, rootNavigator: true).pop();
   Navigator.pop(context);
-  // ✅ استنى frame كامل عشان الدايالوج يختفي الأول
   await Future.delayed(const Duration(milliseconds: 100));
 
   if (!context.mounted) return;

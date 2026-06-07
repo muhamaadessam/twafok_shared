@@ -5,7 +5,13 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:essam_shared/core/core.dart';
 
+/// A scaffold widget with built-in connectivity monitoring.
+///
+/// This widget automatically monitors network connectivity and shows
+/// a no-internet screen when the device is offline. The text direction
+/// is automatically determined from the app's locale.
 class CustomScaffold extends StatefulWidget {
+  /// Creates a custom scaffold with connectivity monitoring.
   const CustomScaffold({
     super.key,
     required this.body,
@@ -15,15 +21,38 @@ class CustomScaffold extends StatefulWidget {
     this.drawer,
     this.bottomNavigationBar,
     this.appBar,
+    this.noInternetMessage,
+    this.noInternetIcon,
   });
 
+  /// The main body content of the scaffold.
   final Widget body;
+
+  /// Optional background color for the scaffold.
   final Color? backgroundColor;
-  final FloatingActionButtonLocation? floatingActionButtonLocation;
+
+  /// Optional floating action button.
   final Widget? floatingActionButton;
+
+  /// Optional floating action button location.
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
+
+  /// Optional drawer.
   final Widget? drawer;
+
+  /// Optional bottom navigation bar.
   final Widget? bottomNavigationBar;
+
+  /// Optional app bar.
   final PreferredSizeWidget? appBar;
+
+  /// Custom message to show when no internet connection.
+  /// If null, a default message will be used.
+  final String? noInternetMessage;
+
+  /// Custom icon to show when no internet connection.
+  /// If null, a default icon will be used.
+  final IconData? noInternetIcon;
 
   @override
   State<CustomScaffold> createState() => _CustomScaffoldState();
@@ -50,8 +79,9 @@ class _CustomScaffoldState extends State<CustomScaffold> {
     }
   }
 
-  /// Replaces InternetConnectionChecker — does a raw TCP connect to
-  /// 1.1.1.1:80 (Cloudflare DNS-over-HTTPS) with a 5-second timeout.
+  /// Checks for actual internet connectivity by connecting to Cloudflare DNS.
+  ///
+  /// This performs a raw TCP connect to 1.1.1.1:80 with a 5-second timeout.
   /// Works on iOS, Android, macOS, and other platforms without any
   /// platform-specific entitlements beyond normal internet access.
   Future<bool> _hasActualInternet() async {
@@ -84,45 +114,45 @@ class _CustomScaffoldState extends State<CustomScaffold> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: !isDeviceConnected
-          ? Scaffold(
-              body: FutureBuilder(
-                future: Future.delayed(const Duration(seconds: 1)),
-                builder: (context, snap) {
-                  if (snap.connectionState == ConnectionState.done) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        const Icon(
-                          Icons.signal_wifi_connected_no_internet_4_rounded,
-                          size: 200,
+    return !isDeviceConnected
+        ? Scaffold(
+            body: FutureBuilder(
+              future: Future.delayed(const Duration(seconds: 1)),
+              builder: (context, snap) {
+                if (snap.connectionState == ConnectionState.done) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Icon(
+                        widget.noInternetIcon ??
+                            Icons.signal_wifi_connected_no_internet_4_rounded,
+                        size: 200,
+                        color: const Color(0xffc2c2c2),
+                      ),
+                      const SizedBox(height: 20),
+                      Center(
+                        child: TextTitle(
+                          widget.noInternetMessage ?? 'No Internet Connection',
+                          color: const Color(0xffc2c2c2),
+                          fontWeight: FontWeight.bold,
                         ),
-                        const Center(
-                          child: TextTitle(
-                            'الجهاز غير متصل بالانترنت',
-                            color: Color(0xffc2c2c2),
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    );
-                  }
-                  return const Center(child: CircularProgressIndicator());
-                },
-              ),
-            )
-          : Scaffold(
-              backgroundColor: widget.backgroundColor,
-              floatingActionButtonLocation: widget.floatingActionButtonLocation,
-              floatingActionButton: widget.floatingActionButton,
-              drawer: widget.drawer,
-              bottomNavigationBar: widget.bottomNavigationBar,
-              body: widget.body,
-              appBar: widget.appBar,
+                      ),
+                    ],
+                  );
+                }
+                return const Center(child: CircularProgressIndicator());
+              },
             ),
-    );
+          )
+        : Scaffold(
+            backgroundColor: widget.backgroundColor,
+            floatingActionButtonLocation: widget.floatingActionButtonLocation,
+            floatingActionButton: widget.floatingActionButton,
+            drawer: widget.drawer,
+            bottomNavigationBar: widget.bottomNavigationBar,
+            body: widget.body,
+            appBar: widget.appBar,
+          );
   }
 }

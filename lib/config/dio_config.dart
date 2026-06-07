@@ -322,7 +322,7 @@ class DioHelper {
   }
 
   static Future<void> syncWithConfig() async {
-    final token = EssamConfig.getToken();
+    final token = await EssamConfig.getToken();
     if (token != null) {
       await updateToken(token);
     }

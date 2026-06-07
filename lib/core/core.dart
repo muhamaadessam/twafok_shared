@@ -1,8 +1,13 @@
-// import 'package:essam_shared/core/core.dart';
+/// Core exports for the Essam Shared package.
+///
+/// This barrel file exports all core components, utilities, and helpers
+/// for easy access throughout the application.
+library;
 
 export 'base/base_background_widget.dart';
 export 'base/bloc/base_bloc.dart';
 export 'base/ui/base_view.dart';
+
 export 'components/custom_widgets/custom_button.dart';
 export 'components/custom_widgets/custom_scaffold.dart';
 export 'components/custom_widgets/custom_text_form_field.dart';
@@ -13,28 +18,37 @@ export 'components/custom_widgets/loading_view.dart';
 export 'components/custom_widgets/soon_screen.dart';
 export 'components/custom_widgets/text_form_field_permissions.dart';
 export 'components/custom_widgets/unauthorized_screen.dart';
-export 'components/pdf_viewer.dart';
+
 export 'components/pick_image/pick_image.dart';
 export 'components/pop_up/alert_dialog.dart';
 export 'components/pop_up/snackbar.dart';
 export 'components/shimmer/custom_network_image.dart';
 export 'components/shimmer/shimmer_widget.dart';
+
 export 'constants/app_theme.dart';
 export 'constants/color/app_theme_cubit.dart';
 export 'constants/colors.dart';
 export 'constants/hex_color.dart';
 export 'constants/text.dart';
+
+export 'design_system/design_system.dart'
+    show AppSpacing, AppRadius, AppTypography, AppShadows;
+
 export 'error/error_model.dart';
 export 'error/exception.dart';
 export 'error/failure.dart';
+
 export 'extensions/context_extension.dart';
-export 'extensions/file_extension.dart';
 export 'extensions/map_extension.dart';
 export 'extensions/string_extension.dart';
+
 export 'logger/app_logger.dart';
+
 export 'network/local/cache_helper.dart';
 export 'network/local/secure_cache_helper.dart';
 export 'network/remote/firebase_notification_helper.dart';
 export 'network/remote/result_helper.dart';
+
 export 'notifications/local_notification_helper.dart';
+
 export 'use_cases/use_case.dart';

@@ -1,6 +1,6 @@
 name: essam_shared
 description: Shared widgets, utilities, and themes for Essam projects
-version: 1.0.1+17
+version: 1.0.1+18
 homepage: https://github.com/muhamaadessam/essam_shared
 
 environment:
